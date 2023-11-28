@@ -85,7 +85,7 @@ const CreateCourseForm = () => {
 	return (
 		<div className="h-screen flex items-center justify-center">
 			<div className="p-8 rounded shadow-2xl w-full max-w-md text-white">
-				<div className="mb-6 text-4xl">Edit this course</div>
+				<div className="mb-6 text-4xl ">Edit this course</div>
 
 				<div className="mb-4">
 					<label className="block">title:</label>

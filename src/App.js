@@ -2,14 +2,16 @@ import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
-	Navigate,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 
 // pages
 import Home from "./Pages/Home";
-import Index from "./Pages/Courses/Index";
+import CoursesIndex from "./Pages/Courses/Index";
+import CreateLecturerForm from "./Pages/Lecturers/CreateLecturerForm";
+
 import SingleCourse from "./Pages/Courses/SingleCourse";
+import SingleLecturer from "./Pages/Lecturers/SingleLecturer";
 
 // components
 import Navbar from "./Components/Navbar";
@@ -17,104 +19,44 @@ import RegisterForm from "./Components/RegisterForm";
 import LoginForm from "./Components/LoginForm";
 import CreateCourseForm from "./Pages/Courses/CreateCourseForm";
 import EditCourseForm from "./Pages/Courses/EditCourseForm";
-
+import { useAuth } from "./contexts/AuthContext";
 // import Navbar from "./components/Navbar";
 
 function App() {
-	const [authenticated, setAuthenticated] = useState(false);
+	const { authenticated, onAuthenticated } = useAuth();
 
-	let protectedRoutes;
 
+	const protectedRoutes = authenticated && (
+		<>
+			<Route path="/" element={<Home />} />
+			<Route path="/lecturer/:id" element={<SingleLecturer />} />
+			<Route path="/lecturers/create" element={<CreateLecturerForm />} />
+
+				<Route path="/course/:id" element={<SingleCourse />} />
+				<Route path="/course/create" element={<CreateCourseForm />} />
+				<Route path="/course/edit/:id" element={<EditCourseForm />} />
+
+		</>
+	);
 	useEffect(() => {
+		// Check if a token is present in localStorage on app mount
 		if (localStorage.getItem("token")) {
-			setAuthenticated(true);
+			onAuthenticated(true);
 		}
-	}, []);
+	}, [onAuthenticated]);
 
-	const onAuthenticated = (auth, token) => {
-		setAuthenticated(auth);
 
-		if (auth) {
-			localStorage.setItem("token", token);
-		} else {
-			localStorage.removeItem("token");
-		}
-	};
-
-	if (authenticated) {
-		protectedRoutes = (
-			<>
-				<Route path="/" element={<Home />} />
-			</>
-		);
-	}
 
 	return (
 		<Router>
 			<Navbar authenticated={authenticated} onAuthenticated={onAuthenticated} />
 			<Routes>
-				<Route
-					path="/"
-					element={
-						<Home
-							
-						/>
-					}
-				/>
-				<Route
-					path="/courses"
-					element={
-						<Index
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
-				<Route
-					path="/register"
-					element={
-						<RegisterForm
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
-				<Route
-					path="/login"
-					element={
-						<LoginForm
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
-				<Route
-					path="/course/:id"
-					element={
-						<SingleCourse
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
-				<Route
-					path="/course/create"
-					element={
-						<CreateCourseForm
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
-				<Route
-					path="/course/edit/:id"
-					element={
-						<EditCourseForm
-							authenticated={authenticated}
-							onAuthenticated={onAuthenticated}
-						/>
-					}
-				/>
+
+				<Route path="/" element={<Home />} />
+				<Route path="/courses" element={<CoursesIndex />} />
+
+				<Route path="/register" element={<RegisterForm />} />
+				<Route path="/login" element={<LoginForm />} />
 				{protectedRoutes}
 			</Routes>
 		</Router>
