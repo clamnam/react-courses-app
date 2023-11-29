@@ -25,6 +25,9 @@ const Navbar = () => {
 			<Link to="/lecturers" className="text-white ml-4">
 				Lecturers
 			</Link>
+			<Link to="/enrolments" className="text-white ml-4">
+				Enrolments
+			</Link>
 			{authenticated && (
 				<button className="bg-white  ml-4 px-2 py-1 rounded" onClick={logout}>
 					Logout

@@ -17,15 +17,15 @@ const Home = () => {
 			)}
 			<div>
 				<div className="diff h-screen">
-					<div className="diff-item-1">
+				<div className="diff-item-1">
 						<div
-							className="bg-primary-content text-7xl text-slate-950 font-black grid place-content-center"
+							className=" bg-primary-content text-slate-950 text-7xl font-black grid place-content-center"
 							style={{
 								backgroundImage: `url(${require("../resources/proffesor.jpg")})`,
 								backgroundSize: "cover",
 							}}
 						>
-							<Link to="/">Find the Best Lecturers</Link>
+							Find the Best Course
 						</div>
 					</div>
 
@@ -37,7 +37,7 @@ const Home = () => {
 								backgroundSize: "cover",
 							}}
 						>
-							Find the Right Course
+							Find the Best Course
 						</div>
 					</div>
 

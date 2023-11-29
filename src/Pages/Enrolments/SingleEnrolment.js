@@ -27,43 +27,6 @@ const SingleEnrolment = () => {
 			});
 	}, [id, token]);
 
-	let enrolments = null;
-
-	if (enrolment?.enrolments && enrolment.enrolments.length) {
-		enrolments = enrolment.enrolments.map((enrolment, index) => (
-			<div key={index} className="">
-				<div
-					id={`enrolment-collapse-${index}`}
-					className=""
-					aria-labelledby={`enrolment-heading-${index}`}
-					data-bs-parent="#accordionExample"
-				>
-					<div className=" bg-base-200">
-
-						<Link to={`/course/${enrolment.course?.id}`}>
-							<p>Course Title: {enrolment.course?.title}</p>
-						</Link>
-
-						<p>Course Code: {enrolment.course?.code}</p> 
-						<p>Enrolment Status: {enrolment.course?.level}</p>
-
-						<p>
-							Course Description:{" "}
-							{enrolment.course?.description
-								? enrolment.course.description
-								: "No description found"}
-						</p>
-
-						<hr className="" />
-						<br />
-					</div>
-				</div>
-			</div>
-		));
-	} else {
-		enrolments = <p>No enrolments found.</p>;
-	}
-
 	if (!enrolment) {
 		return (
 			<>
@@ -80,33 +43,45 @@ const SingleEnrolment = () => {
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{enrolment?.name}
 				</h2>
-				<Link to={`/enrolment/edit/${id}`} className="btn text-l bg-neutral-800">
-					Edit this enrolment
+
+				<Link className=" text-2xl " to={`/course/${enrolment.course?.id}`}>
+					<p className="text-neutral-800">
+						Course Title: {enrolment.course.title}
+					</p>
 				</Link>
-				<DeleteBtn resource={"enrolments"} id={id} deleteCallback={deleteEnrolment}>
-					delete this enrolment
-				</DeleteBtn>
-				<p className="text-zinc-800 mt-8 overflow-auto ">
-					Email : {enrolment.email}
+				<Link to={`/lecturer/${enrolment.lecturer?.id}`}>
+					<p className="text-neutral-800">
+						lecturer : {enrolment.lecturer.name}
+					</p>
+				</Link>
+
+				<p className="text-neutral-800">
+					Course Code: {enrolment.course?.code}
 				</p>
-				<p className="text-zinc-800 mb-8 ">Phone Number : {enrolment.phone}</p>
-				<div className="collapse collapse-arrow bg-base-200">
-					<input type="radio" name="my-accordion-1" defaultChecked={true} />
-					<div className="collapse-title text-xl ">Additional info</div>
-					<div className="collapse-content">
-						Points : {enrolment?.points}
-						<br />
-						Level : {enrolment?.level}
-					</div>
-					<div className="collapse collapse-arrow bg-base-200">
-						<input type="radio" name="my-accordion-1" />
-						<div className="collapse-title text-xl font-medium">
-							enrolments
-						</div>
-						<div className="collapse-content">
-							{enrolments ? enrolments : <p>No enrolments available.</p>}
-						</div>
-					</div>
+				<p className="text-neutral-800">
+					Enrolment Status: {enrolment.course?.level}
+				</p>
+
+				<p className="text-neutral-800">
+					Course Description:{" "}
+					{enrolment.course?.description
+						? enrolment.course.description
+						: "No description found"}
+				</p>
+				<div className="my-4">
+					<Link
+						to={`/enrolment/edit/${id}`}
+						className="btn text-l bg-neutral-800"
+					>
+						Edit this enrolment
+					</Link>
+					<DeleteBtn
+						resource={"enrolments"}
+						id={id}
+						deleteCallback={deleteEnrolment}
+					>
+						delete this enrolment
+					</DeleteBtn>
 				</div>
 			</div>
 		</>

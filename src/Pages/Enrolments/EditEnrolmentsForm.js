@@ -1,75 +1,113 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+const CreateEnrolmentForm = () => {
 
-const CreateLecturerForm = () => {
+	
 	let { id } = useParams();
 	const navigate = useNavigate();
+
+	const { authenticated } = useAuth();
 	let token = localStorage.getItem("token");
 
-	const [lecturerData, setLecturerData] = useState({
-		name: "",
-		address: "",
-		phone: "",
-		email: "",
+	const [lecturers, setLecturers] = useState([]);
+	const [courses, setCourses] = useState([]);
+	const [form, setForm] = useState({
+		date: "",
+		time: "",
+		status: "",
+		course_id: "",
+		lecturer_id: "",
 	});
 
-	const [form, setForm] = useState({
-		
-		name: "",
-		address: "",
-		phone: "",
-		email: "",
-	});
+
+
 
 	const [errMessage, setErrMessage] = useState("");
 
 	useEffect(() => {
 		axios
-			.get(`https://college-api.vercel.app/api/lecturers/${id}`, {
+			.get(`https://college-api.vercel.app/api/enrolments/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				console.log(response.data.data);
-				setLecturerData(response.data.data);
+				setForm({
+					date: response.data.data.date || "",
+					time: response.data.data.time || "",
+					status: response.data.data.status || "",
+					course_id: response.data.data.course_id || "",
+					lecturer_id: response.data.data.lecturer_id || "",
+				});
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [id, token]);
 
-	useEffect(() => {
-		// Update the form state when lecturerData changes
-		setForm({
-			name: lecturerData.name || "",
-			address: lecturerData.address || "",
-			phone: lecturerData.phone || "",
-			email: lecturerData.email || "",
-		});
-	}, [lecturerData]);
+		axios
+			.get("https://college-api.vercel.app/api/courses", {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				setCourses(response.data.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
+		axios
+			.get("https://college-api.vercel.app/api/lecturers", {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				setLecturers(response.data.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
+		if (authenticated === false) {
+			navigate("/");
+		}
+	}, [id, token, navigate, authenticated]);
 
 	const handleClick = () => {
 		axios
 			.put(
-				`https://college-api.vercel.app/lecturers/${id}`,
+				`https://college-api.vercel.app/enrolments/${id}`,
 				{
-					name: form.name,
-					address: form.address,
-					phone: form.phone,
-					email: form.email,
+					date: form.date,
+					time: form.time,
+					status: form.status,
+					course_id: form.course_id,
+					lecturer_id: form.lecturer_id,
 				},
 				{ headers: { Authorization: `Bearer ${token}` } }
 			)
 			.then((response) => {
 				let data = response.data.data;
 				console.log(data.id);
-				navigate(`/lecturer/${data.id}`);
+				navigate(`/enrolment/${data.id}`);
 			})
 			.catch((err) => {
 				console.error(err);
 				console.log(err.response.data);
 				setErrMessage(err.response.data.error);
 			});
+	};
+
+	const handleLecturerChange = (e) => {
+		setForm((prevState) => ({
+			...prevState,
+			lecturer_id: e.target.value,
+		}));
+	};
+
+	const handleCourseChange = (e) => {
+		setForm((prevState) => ({
+			...prevState,
+			course_id: e.target.value,
+		}));
 	};
 
 	const handleForm = (e) => {
@@ -79,52 +117,63 @@ const CreateLecturerForm = () => {
 		}));
 	};
 
+	let coursesDrop;
+	let lecturersDrop;
+
+	if (courses && lecturers) {
+		coursesDrop = courses.map((course) => (
+			<option key={course.id} value={course.id}>
+				{course.title}
+			</option>
+		));
+
+		lecturersDrop = lecturers.map((lecturer) => (
+			<option key={lecturer.id} value={lecturer.id}>
+				{lecturer.name}
+			</option>
+		));
+	}
+
 	return (
 		<div className="h-screen flex items-center justify-center">
 			<div className="p-8 rounded shadow-2xl w-full max-w-md text-white">
-				<div className="mb-6 text-4xl ">Edit this lecturer</div>
+				<div className="mb-6 text-4xl ">Edit this enrolment</div>
 
 				<div className="mb-4">
-					<label className="block">name:</label>
+					<label className="block">status:</label>
 					<input
 						onChange={handleForm}
 						type="text"
-						name="name"
-						value={form.name}
+						name="status"
+						value={form.status}
 						className="input-field"
 					/>
-				</div>
 
-				<div className="mb-4">
-					<label className="block">address:</label>
-					<input
-						onChange={handleForm}
-						type="text"
-						name="address"
-						value={form.address}
-						className="input-field"
-					/>
-				</div>
-				<div className="mb-4">
-					<label className="block">phone:</label>
-					<textarea
-						onChange={handleForm}
-						type="text"
-						name="phone"
-						value={form.phone}
-						className="input-field w-64"
-					/>
 					<div className="mb-4">
-						<label className="block">email:</label>
-						<input
-							onChange={handleForm}
-							type="text"
-							name="email"
-							value={form.email}
-							className="input-field"
-						/>
+						<label className="block">Course id:</label>
+						<select
+							name="course_id"
+							id="courses"
+							value={form.course_id}
+							onChange={handleCourseChange}
+						>
+							<option>please select</option>
+							{courses && coursesDrop}
+						</select>
 					</div>
-
+					<br />
+					<div className="mb-4">
+						<label className="block">Lecturer id:</label>
+						<select
+							name="lecturer_id"
+							id="lecturers"
+							value={form.lecturer_id}
+							onChange={handleLecturerChange}
+						>
+							<option>please select</option>
+							{lecturers && lecturersDrop}
+						</select>
+					</div>
 				</div>
 				{errMessage && <div className="text-red-500 mb-4">{errMessage}</div>}
 
@@ -138,4 +187,4 @@ const CreateLecturerForm = () => {
 	);
 };
 
-export default CreateLecturerForm;
+export default CreateEnrolmentForm;
