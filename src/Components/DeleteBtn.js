@@ -19,7 +19,7 @@ const [isLoading,setIsLoading] = useState(false);
     const onDelete = () =>{
         // delete not always working
         axios
-        .delete(`https://college-api.vercel.app/courses/${id}`,
+        .delete(`https://college-api.vercel.app/${resource}/${id}`,
         {headers: { Authorization: `Bearer ${token}` }},
         )
         .then((response) => {
@@ -27,12 +27,13 @@ const [isLoading,setIsLoading] = useState(false);
             let data = (response.data)
             console.log(data)
             deleteCallback(id)
-            Navigate(`/courses`,{Id:id,
+            // TODO:add deleted msg
+            Navigate(`/${resource}`,{Id:id,
             });
 
         })
         .catch((err) => {
-
+console.log(`https://college-api.vercel.app/${resource}/${id}`)
             console.log(err.response.data);
 
         });

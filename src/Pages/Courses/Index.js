@@ -22,7 +22,8 @@ const Index = () => {
 			});
 	}, [token]);
 
-	if (courses.length === 0) return <LoginForm/>;
+	if (!authenticated) return <LoginForm/>;
+	if (courses.length === 0) return <span className="text-2xl loading loading-spinner text-neutral">Loading</span>
 
 	const coursesList = courses.map((course, index) => {
 		return (

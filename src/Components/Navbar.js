@@ -20,10 +20,10 @@ const Navbar = () => {
 			</Link>
 			<span className="text-white">|</span>
 			<Link to="/courses" className="text-white ml-4">
-				All courses
+				Courses
 			</Link>
 			<Link to="/lecturers" className="text-white ml-4">
-				All Lecturers
+				Lecturers
 			</Link>
 			{authenticated && (
 				<button className="bg-white  ml-4 px-2 py-1 rounded" onClick={logout}>

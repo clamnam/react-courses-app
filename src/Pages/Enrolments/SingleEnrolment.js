@@ -3,24 +3,24 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DeleteBtn from "../../Components/DeleteBtn";
-const SingleLecturer = () => {
+const SingleEnrolment = () => {
 	let { id } = useParams();
-	const [lecturer, setLecturer] = useState(null);
+	const [enrolment, setEnrolment] = useState(null);
 	const [error, setError] = useState("null");
 
 	let token = localStorage.getItem("token");
 
-	const deleteLecturer = () => {
+	const deleteEnrolment = () => {
 		return <p className="error">Error</p>;
 	};
 	useEffect(() => {
 		axios
-			.get(`https://college-api.vercel.app/api/lecturers/${id}`, {
+			.get(`https://college-api.vercel.app/api/enrolments/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
 				console.log(response.data.data);
-				setLecturer(response.data.data);
+				setEnrolment(response.data.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -29,8 +29,8 @@ const SingleLecturer = () => {
 
 	let enrolments = null;
 
-	if (lecturer?.enrolments && lecturer.enrolments.length) {
-		enrolments = lecturer.enrolments.map((enrolment, index) => (
+	if (enrolment?.enrolments && enrolment.enrolments.length) {
+		enrolments = enrolment.enrolments.map((enrolment, index) => (
 			<div key={index} className="">
 				<div
 					id={`enrolment-collapse-${index}`}
@@ -45,7 +45,7 @@ const SingleLecturer = () => {
 						</Link>
 
 						<p>Course Code: {enrolment.course?.code}</p> 
-						<p>Lecturer Status: {enrolment.course?.level}</p>
+						<p>Enrolment Status: {enrolment.course?.level}</p>
 
 						<p>
 							Course Description:{" "}
@@ -64,10 +64,10 @@ const SingleLecturer = () => {
 		enrolments = <p>No enrolments found.</p>;
 	}
 
-	if (!lecturer) {
+	if (!enrolment) {
 		return (
 			<>
-				<p className="text-lg"> oh no, no lecturer found!</p>
+				<p className="text-lg"> oh no, no enrolment found!</p>
 				<br />
 				<Link to="/">return home</Link>
 			</>
@@ -78,25 +78,25 @@ const SingleLecturer = () => {
 			{" "}
 			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-500 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
-					{lecturer?.name}
+					{enrolment?.name}
 				</h2>
-				<Link to={`/lecturer/edit/${id}`} className="btn text-l bg-neutral-800">
-					Edit this lecturer
+				<Link to={`/enrolment/edit/${id}`} className="btn text-l bg-neutral-800">
+					Edit this enrolment
 				</Link>
-				<DeleteBtn resource={"lecturers"} id={id} deleteCallback={deleteLecturer}>
-					delete this lecturer
+				<DeleteBtn resource={"enrolments"} id={id} deleteCallback={deleteEnrolment}>
+					delete this enrolment
 				</DeleteBtn>
 				<p className="text-zinc-800 mt-8 overflow-auto ">
-					Email : {lecturer.email}
+					Email : {enrolment.email}
 				</p>
-				<p className="text-zinc-800 mb-8 ">Phone Number : {lecturer.phone}</p>
+				<p className="text-zinc-800 mb-8 ">Phone Number : {enrolment.phone}</p>
 				<div className="collapse collapse-arrow bg-base-200">
 					<input type="radio" name="my-accordion-1" defaultChecked={true} />
 					<div className="collapse-title text-xl ">Additional info</div>
 					<div className="collapse-content">
-						Points : {lecturer?.points}
+						Points : {enrolment?.points}
 						<br />
-						Level : {lecturer?.level}
+						Level : {enrolment?.level}
 					</div>
 					<div className="collapse collapse-arrow bg-base-200">
 						<input type="radio" name="my-accordion-1" />
@@ -113,4 +113,4 @@ const SingleLecturer = () => {
 	);
 };
 
-export default SingleLecturer;
+export default SingleEnrolment;
