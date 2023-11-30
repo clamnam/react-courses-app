@@ -9,10 +9,14 @@ export function useAuth() {
 
 export function AuthProvider(props) {
 	const [authenticated, setAuthenticated] = useState(false);
+	const [alert, setAlert] = useState("");
+
 
 	return (
 		<AuthContext.Provider
 			value={{
+				alert,
+				setAlert,
 				authenticated,
 				onAuthenticated: (auth, token) => {
 					setAuthenticated(auth);

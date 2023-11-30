@@ -39,12 +39,11 @@ const SingleLecturer = () => {
 					data-bs-parent="#accordionExample"
 				>
 					<div className=" bg-base-200">
-
 						<Link to={`/course/${enrolment.course?.id}`}>
-							<p>Course Title: {enrolment.course?.title}</p>
+							<p className="mb-2 text-3xl text-zinc-0">Course Title: {enrolment.course?.title}</p>
 						</Link>
 
-						<p>Course Code: {enrolment.course?.code}</p> 
+						<p>Course Code: {enrolment.course?.code}</p>
 						<p>Lecturer Status: {enrolment.course?.level}</p>
 
 						<p>
@@ -76,14 +75,21 @@ const SingleLecturer = () => {
 	return (
 		<>
 			{" "}
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-500 shadow-md rounded-md">
-				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
+				<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 					{lecturer?.name}
 				</h2>
-				<Link to={`/lecturer/edit/${id}`} className="btn text-l bg-neutral-800">
+				<Link
+					to={`/lecturer/edit/${id}`}
+					className="btn mr-2 text-l bg-neutral-800"
+				>
 					Edit this lecturer
 				</Link>
-				<DeleteBtn resource={"lecturers"} id={id} deleteCallback={deleteLecturer}>
+				<DeleteBtn
+					resource={"lecturers"}
+					id={id}
+					deleteCallback={deleteLecturer}
+				>
 					delete this lecturer
 				</DeleteBtn>
 				<p className="text-zinc-800 mt-8 overflow-auto ">
@@ -94,15 +100,11 @@ const SingleLecturer = () => {
 					<input type="radio" name="my-accordion-1" defaultChecked={true} />
 					<div className="collapse-title text-xl ">Additional info</div>
 					<div className="collapse-content">
-						Points : {lecturer?.points}
-						<br />
-						Level : {lecturer?.level}
+						Address : {lecturer?.address}
 					</div>
 					<div className="collapse collapse-arrow bg-base-200">
 						<input type="radio" name="my-accordion-1" />
-						<div className="collapse-title text-xl font-medium">
-							enrolments
-						</div>
+						<div className="collapse-title text-xl font-medium">enrolments</div>
 						<div className="collapse-content">
 							{enrolments ? enrolments : <p>No enrolments available.</p>}
 						</div>

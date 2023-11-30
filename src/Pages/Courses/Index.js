@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import LoginForm from "../../Components/LoginForm";
 import { useAuth } from "../../contexts/AuthContext";
+import CourseCard from "../../Components/Cards/CourseCard";
 const Index = () => {
 	const { authenticated } = useAuth();
 
@@ -35,20 +36,7 @@ const Index = () => {
 			<div key={index}>
 				{authenticated ? (
 					<>
-						<div className="card w-96 sm:w-3/4 bg-base-200 h-96 border border-black px-6 overflow-hidden shadow-lg flex flex-col">
-							<figure></figure>
-							<div className="card-body">
-								<h2 className="card-title">
-									<Link to={`/course/${course.id}`}>{course.title}</Link>
-								</h2>
-								<p className="overflow-hidden h-7">{course.description}</p>
-								<div className="card-actions justify-end">
-									<button className="btn  btn-primary">
-										<Link to={`/course/${course.id}`}>Check it out</Link>
-									</button>
-								</div>
-							</div>
-						</div>
+						<CourseCard props={course}/>
 					</>
 				) : (
 					<></>

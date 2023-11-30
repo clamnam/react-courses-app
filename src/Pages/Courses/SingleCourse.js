@@ -63,14 +63,15 @@ const SingleCourse = () => {
 	return (
 		<>
 			{" "}
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-500 shadow-md rounded-md">
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{course?.title}
 				</h2>
-				<Link to={`/course/edit/${id}`} className="btn text-l bg-neutral-800">
+				
+				<Link to={`/course/edit/${id}`} className="btn mr-2 text-l bg-neutral-800">
 					Edit this course
 				</Link>
-				<DeleteBtn resource={"courses"} id={id} deleteCallback={deleteFestival}>
+				<DeleteBtn  resource={"courses"} id={id} deleteCallback={deleteFestival}>
 					delete this course
 				</DeleteBtn>
 				<p className="text-zinc-800 ">Course Code : {course?.code}</p>

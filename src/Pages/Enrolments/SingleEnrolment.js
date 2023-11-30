@@ -38,40 +38,24 @@ const SingleEnrolment = () => {
 	}
 	return (
 		<>
-			{" "}
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-500 shadow-md rounded-md">
-				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
-					{enrolment?.name}
-				</h2>
-
-				<Link className=" text-2xl " to={`/course/${enrolment.course?.id}`}>
-					<p className="text-neutral-800">
-						Course Title: {enrolment.course.title}
-					</p>
-				</Link>
-				<Link to={`/lecturer/${enrolment.lecturer?.id}`}>
-					<p className="text-neutral-800">
-						lecturer : {enrolment.lecturer.name}
-					</p>
-				</Link>
-
-				<p className="text-neutral-800">
-					Course Code: {enrolment.course?.code}
-				</p>
-				<p className="text-neutral-800">
-					Enrolment Status: {enrolment.course?.level}
-				</p>
-
-				<p className="text-neutral-800">
-					Course Description:{" "}
-					{enrolment.course?.description
-						? enrolment.course.description
-						: "No description found"}
-				</p>
-				<div className="my-4">
+			<>
+				{" "}
+				<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
+					<h2 className="text-3xl text-zinc-800 font-bold mb-2">
+						<div>
+							<Link to={`/lecturer/${enrolment.course?.id}`}>
+								Course Title: {enrolment.course.title}
+							</Link>
+						</div>
+						<div>
+							<Link className="" to={`/lecturer/${enrolment.lecturer?.id}`}>
+								Lecturer Name :{enrolment.lecturer?.name}
+							</Link>
+						</div>
+					</h2>
 					<Link
 						to={`/enrolment/edit/${id}`}
-						className="btn text-l bg-neutral-800"
+						className="btn text-l mr-2 bg-neutral-800"
 					>
 						Edit this enrolment
 					</Link>
@@ -82,8 +66,22 @@ const SingleEnrolment = () => {
 					>
 						delete this enrolment
 					</DeleteBtn>
+
+					<p className="text-zinc-800  overflow-auto ">
+						<p className="text-neutral-800">
+							lecturer status : {enrolment.status}
+						</p>{" "}
+					</p>
+					<p className="text-zinc-800  ">
+						{" "}
+						Course Code: {enrolment.course?.code}
+					</p>
+					<p className="text-zinc-800 mb-8 ">
+						{" "}
+						Course description: {enrolment.course?.description}
+					</p>
 				</div>
-			</div>
+			</>
 		</>
 	);
 };

@@ -10,6 +10,12 @@ const CreateEnrolmentForm = () => {
 
 	const { authenticated } = useAuth();
 	let token = localStorage.getItem("token");
+	// const [status, setStatus] = useState([
+	// 	interested
+	// 	assigned
+	// 	associate
+	// 	career_break
+	// ]);
 
 	const [lecturers, setLecturers] = useState([]);
 	const [courses, setCourses] = useState([]);
@@ -20,6 +26,7 @@ const CreateEnrolmentForm = () => {
 		course_id: "",
 		lecturer_id: "",
 	});
+	
 
 
 

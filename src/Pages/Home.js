@@ -25,7 +25,7 @@ const Home = () => {
 								backgroundSize: "cover",
 							}}
 						>
-							Find the Best Course
+							Find the Best Lecturer
 						</div>
 					</div>
 
@@ -37,7 +37,7 @@ const Home = () => {
 								backgroundSize: "cover",
 							}}
 						>
-							Find the Best Course
+							&#32;&#32;Find the Best Course &#32;	&#32;
 						</div>
 					</div>
 
