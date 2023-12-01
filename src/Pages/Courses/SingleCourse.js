@@ -3,17 +3,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DeleteBtn from "../../Components/DeleteBtn";
+
+import { useAuth } from "../../contexts/AuthContext";
 const SingleCourse = () => {
 	let { id } = useParams();
 	const [course, setCourse] = useState(null);
 	const [error, setError] = useState("null");
-
+	const { setAlert, alert } = useAuth();
 	let token = localStorage.getItem("token");
 
 	const deleteFestival = () => {
 		return <p className="error">Error</p>;
 	};
 	useEffect(() => {
+		setTimeout(() => setAlert(""), 5000);
 		axios
 			.get(`https://college-api.vercel.app/api/courses/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -25,7 +28,7 @@ const SingleCourse = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [id, token]);
+	}, [id, token,setAlert]);
 
 	let enrolments = null;
 
@@ -63,6 +66,7 @@ const SingleCourse = () => {
 	return (
 		<>
 			{" "}
+			<p className="flex items-center justify-center text-lg bg-red-700 text-white ">{alert}</p>
 			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{course?.title}
