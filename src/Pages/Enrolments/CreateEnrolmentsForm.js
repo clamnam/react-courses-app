@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const CreateEnrolmentForm = () => {
-	const Navigate = useNavigate();
-	const { authenticated } = useAuth();
+	const navigate = useNavigate();
+	const { authenticated ,setAlert} = useAuth();
 	const [lecturers, setLecturers] = useState([]);
 	const [courses, setCourses] = useState([]);
 	const [selectedLecturer, setSelectedLecturer] = useState("");
 	const [selectedCourse, setSelectedCourse] = useState("");
 
 	let token = localStorage.getItem("token");
+
 	useEffect(() => {
 		axios
 			.get("https://college-api.vercel.app/api/courses", {
@@ -19,6 +20,9 @@ const CreateEnrolmentForm = () => {
 			})
 			.then((response) => {
 				setCourses(response.data.data);
+				setAlert("Success adding Enrolment!");
+
+
 			})
 			.catch((err) => {
 				console.log(err);
@@ -36,10 +40,10 @@ const CreateEnrolmentForm = () => {
 			});
 
 		if (authenticated === false) {
-			Navigate("/");
-		} else {
+			navigate("/");
 		}
-	}, [Navigate, authenticated, token]);
+	}, [navigate, authenticated, token]);
+
 	const [form, setForm] = useState({
 		date: "",
 		time: "",
@@ -47,6 +51,13 @@ const CreateEnrolmentForm = () => {
 		course_id: "",
 		lecturer_id: "",
 	});
+
+	const [error, setError] = useState({
+		status: "",
+		course_id: "",
+		lecturer_id: "",
+	});
+
 	const [errMessage, setErrMessage] = useState("");
 
 	const handleClick = () => {
@@ -57,6 +68,7 @@ const CreateEnrolmentForm = () => {
 			minute: "2-digit",
 			second: "2-digit",
 		});
+
 		let date =
 			currentDate.getFullYear() +
 			"-" +
@@ -64,6 +76,7 @@ const CreateEnrolmentForm = () => {
 			"-" +
 			currentDate.getDate();
 		console.log(date);
+
 		axios
 			.post(
 				"https://college-api.vercel.app/enrolments",
@@ -71,20 +84,32 @@ const CreateEnrolmentForm = () => {
 					date: date,
 					time: currentTime,
 					status: form.status,
-					course_id: form.course_id, 
-					lecturer_id: form.lecturer_id, 
+					course_id: form.course_id,
+					lecturer_id: form.lecturer_id,
 				},
 				{ headers: { Authorization: `Bearer ${token}` } }
 			)
 			.then((response) => {
 				let data = response.data.data;
 				console.log(data.id);
-				Navigate(`/enrolment/${data.id}`);
+				navigate(`/enrolment/${data.id}`);
 			})
 			.catch((err) => {
-				console.error(err);
-				console.log(err.response.data);
-				setErrMessage(err.response.data.error);
+				if (err.response && err.response.data.errors) {
+					const validationErrors = err.response.data.errors;
+					setError(
+						Object.keys(validationErrors).reduce((acc, key) => {
+							acc[key] = validationErrors[key][0];
+							return acc;
+						}, {})
+					);
+				} else if (err.response) {
+					setErrMessage(`Server error: ${err.response.status}`);
+				} else if (err.request) {
+					setErrMessage("No response from the server");
+				} else {
+					setErrMessage("Request failed");
+				}
 			});
 	};
 
@@ -101,6 +126,7 @@ const CreateEnrolmentForm = () => {
 			course_id: e.target.value,
 		}));
 	};
+
 	const handleForm = (e) => {
 		setForm((prevState) => ({
 			...prevState,
@@ -139,6 +165,8 @@ const CreateEnrolmentForm = () => {
 						value={form.status}
 						className="input-field"
 					/>
+										<p className="text-red-500">{error.status}</p>
+
 
 					<div className="mb-4">
 						<label className="block">Course id:</label>
@@ -152,6 +180,8 @@ const CreateEnrolmentForm = () => {
 
 							{courses && coursesDrop}
 						</select>
+						<p className="text-red-500">{error.course_id}</p>
+
 					</div>
 					<br />
 					<div className="mb-4">
@@ -166,6 +196,8 @@ const CreateEnrolmentForm = () => {
 
 							{lecturers && lecturersDrop}
 						</select>
+						<p className="text-red-500">{error.lecturer_id}</p>
+
 					</div>
 				</div>
 				{errMessage && <div className="text-red-500 mb-4">{errMessage}</div>}

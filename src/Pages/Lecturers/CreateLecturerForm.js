@@ -48,7 +48,7 @@ const CreateLecturerForm = () => {
 				const data = response.data.data;
 				console.log(data.id);
 				setAlert("Success adding Lecturer!");
-				navigate(`/lecturer/${data.id}`);
+				Navigate(`/lecturer/${data.id}`);
 			})
 			.catch((err) => {
 				if (err.response && err.response.data.errors) {

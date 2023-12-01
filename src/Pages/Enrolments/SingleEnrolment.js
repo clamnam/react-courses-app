@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DeleteBtn from "../../Components/DeleteBtn";
+import { useAuth } from "../../contexts/AuthContext";
 const SingleEnrolment = () => {
 	let { id } = useParams();
 	const [enrolment, setEnrolment] = useState(null);
 	const [error, setError] = useState("null");
+	const { setAlert, alert } = useAuth();
 
 	let token = localStorage.getItem("token");
 
@@ -14,7 +16,10 @@ const SingleEnrolment = () => {
 		return <p className="error">Error</p>;
 	};
 	useEffect(() => {
+		setTimeout(() => setAlert(""), 5000);
+
 		axios
+	
 			.get(`https://college-api.vercel.app/api/enrolments/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
@@ -40,6 +45,8 @@ const SingleEnrolment = () => {
 		<>
 			<>
 				{" "}
+				<p className="flex items-center justify-center text-lg bg-red-700 text-white ">{alert}</p>
+
 				<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
 					<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 						<div>
