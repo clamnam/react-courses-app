@@ -4,11 +4,10 @@ let card;
     props = props.props
 card =(					
     <>
-    <div className="card w-96 sm:w-3/4 bg-base-200 h-70 border border-black px-6 overflow-hidden shadow-lg flex flex-col">
-        <figure></figure>
+    <div className="card bg-base-200 border border-black px-6 overflow-hidden shadow-lg flex flex-col">
         <div className="card-body">
             <div className="overflow-y-hidden">
-                <h2 className="card-title">
+                <h2 className="card-title text-neutral-100">
                     <Link to={`/enrolment/${props.id}`}>
                         Enrollment :
                     </Link>

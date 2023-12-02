@@ -44,9 +44,9 @@ const LecturersIndex = () => {
 		<>
 					<h1 className="mb-4 text-4xl place-content-center ">All Lecturers</h1>
 <div className="container mx-auto">
-					{authenticated &&(       <> <Link to="/lecturer/create" className="text-white bg-slate-500 text-xl my-4 btn  bg-base-200">Add a New Lecturer</Link></>  
+					{authenticated &&(       <> <Link to="/lecturer/create" className="text-white text-xl my-4 btn  bg-base-200">Add a New Lecturer</Link></>  
 )}
-			<div className="    grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+				<div className="grid grid-cols-1 gap-10">
 			
 			{authenticated ? (lecturers ? lecturersList : <>no lecturers found</>) : <LoginForm/>}
 			</div>

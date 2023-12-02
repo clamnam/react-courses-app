@@ -51,14 +51,14 @@ const EnrolmentsIndex = () => {
 						{" "}
 						<Link
 							to="/enrolment/create"
-							className="text-white bg-slate-500 text-xl my-4 btn  bg-base-200"
+							className="text-white  text-xl my-4 btn  bg-base-200"
 						>
 							Add a New Enrolment
 						</Link>
 					</>
 				)}
-				<div className="    grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-					{authenticated ? (
+				<div className="grid grid-cols-1 gap-10">
+										{authenticated ? (
 						enrolments ? (
 							enrolmentsList
 						) : (
