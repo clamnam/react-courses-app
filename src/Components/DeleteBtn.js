@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-const DeleteBtn = ({ id, resource, deleteCallback }) => {
+const DeleteBtn = ({ id, resource, secondResource, data, deleteCallback }) => {
 	let token = localStorage.getItem("token");
 
 	const Navigate = useNavigate();
@@ -21,10 +21,9 @@ const DeleteBtn = ({ id, resource, deleteCallback }) => {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				console.log(response.data);
+				console.log(response.data.data);
 				setEnrolments(response.data.data);
-	
-				// Move the filtering logic inside the then block
+	console.log(resource)
 				let filteredEnrolments = [];
 				if (resource === "courses") {
 					filteredEnrolments = response.data.data.filter(
@@ -33,7 +32,14 @@ const DeleteBtn = ({ id, resource, deleteCallback }) => {
 				} else if (resource === "lecturers") {
 					filteredEnrolments = response.data.data.filter(
 						(enrolment) => enrolment.lecturer.id === id
+
 					);
+
+
+
+				}
+				for(let x = 0; x<response.data.data.length;x++){
+					if(response.data.data[x].enrolment.lecturer.id === id) console.log(response.data.data[x])
 				}
 	
 				setEnrolments(filteredEnrolments);

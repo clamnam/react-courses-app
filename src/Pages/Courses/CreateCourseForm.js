@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 const CreateCourseForm = () => {
 	const navigate = useNavigate();
-	const { authenticated, setAlert } = useAuth();
+	const { authenticated, setAlert,alert } = useAuth();
 	const token = localStorage.getItem("token");
 
 	useEffect(() => {

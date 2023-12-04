@@ -14,7 +14,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="bg-red-500 p-4">
+		<div className="bg-blue-800 p-4">
 			<Link to="/" className="text-white mr-4">
 				Home
 			</Link>
@@ -29,9 +29,28 @@ const Navbar = () => {
 				Enrolments
 			</Link>
 			{authenticated && (
-				<button className="bg-white  ml-4 px-2 py-1 rounded" onClick={logout}>
+								<>
+
+											<span className="text-white ml-5">|</span>
+
+				<button className="text-white ml-4 px-2 py-1 rounded" onClick={logout}>
 					Logout
 				</button>
+				</>
+
+
+			)}
+						{!authenticated && (
+				<>
+							<span className="text-white p-4">|</span>
+
+					<Link className="text-white " to={"/Login"}>
+						Login
+					</Link>{" "}
+					<Link className="text-white ml-4" to={"/Register"}>
+						Register
+					</Link>
+				</>
 			)}
 		</div>
 	);

@@ -79,14 +79,14 @@ const RegisterForm = () => {
           />
         </div>
 
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {error && <div className="text-pink-500 mb-4">{error}</div>}
 
         <div className="flex justify-between">
-          <button onClick={handleClick} className="bg-red-500  btn btn-sm  text-white">
+          <button onClick={handleClick} className="bg-pink-500  btn btn-sm  text-white">
             Submit
           </button>
 
-          <button onClick={handleLoginClick} className=" btn btn-sm bg-red-500 text-white">
+          <button onClick={handleLoginClick} className=" btn btn-sm bg-pink-500 text-white">
             Login
           </button>
         </div>

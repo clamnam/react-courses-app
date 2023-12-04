@@ -9,7 +9,7 @@ card =(
             <div className="overflow-y-hidden">
                 <h2 className="card-title text-neutral-100">
                     <Link to={`/enrolment/${props.id}`}>
-                        Enrollment :
+                        Enrolment :
                     </Link>
                 </h2>
                 <div>

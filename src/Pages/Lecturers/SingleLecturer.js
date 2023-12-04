@@ -13,9 +13,6 @@ const SingleLecturer = () => {
 
 	let token = localStorage.getItem("token");
 
-	const deleteLecturer = () => {
-		return <p className="error">Error</p>;
-	};
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
 
@@ -45,7 +42,9 @@ const SingleLecturer = () => {
 				>
 					<div className=" bg-base-200">
 						<Link to={`/course/${enrolment.course?.id}`}>
-							<p className="mb-2 text-3xl text-zinc-0">Course Title: {enrolment.course?.title}</p>
+							<p className="mb-2 text-3xl text-zinc-0">
+								Course Title: {enrolment.course?.title}
+							</p>
 						</Link>
 
 						<p>Course Code: {enrolment.course?.code}</p>
@@ -80,9 +79,10 @@ const SingleLecturer = () => {
 	return (
 		<>
 			{" "}
-			<p className="flex items-center justify-center text-lg bg-red-700 text-white ">{alert}</p>
-
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-red-400 shadow-md rounded-md">
+			<p className="flex items-center justify-center text-lg bg-red-500 text-white ">
+				{alert}
+			</p>
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 					{lecturer?.name}
 				</h2>
@@ -92,13 +92,28 @@ const SingleLecturer = () => {
 				>
 					Edit this lecturer
 				</Link>
-				<DeleteBtn
-					resource={"lecturers"}
-					id={id}
-					deleteCallback={deleteLecturer}
+
+				<button
+					className="btn bg-neutral-800"
+					onClick={() => document.getElementById("my_modal_1").showModal()}
 				>
-					delete this lecturer
-				</DeleteBtn>
+					Delete
+				</button>
+				<dialog id="my_modal_1" className="modal">
+					<div className="modal-box">
+						<h3 className="font-bold text-lg ">Delete Lecturer</h3>
+						<p className="py-4">Are you Sure</p>
+						<div className="modal-action">
+							<form method="dialog">
+								{/* if there is a button in form, it will close the modal */}
+								<button className="btn bg-neutral-800">Cancel</button>
+								<DeleteBtn resource={"lecturers"} id={id}>
+									delete this lecturerm
+								</DeleteBtn>
+							</form>
+						</div>
+					</div>
+				</dialog>
 				<p className="text-zinc-800 mt-8 overflow-auto ">
 					Email : {lecturer.email}
 				</p>
@@ -106,9 +121,7 @@ const SingleLecturer = () => {
 				<div className="collapse collapse-arrow bg-base-200">
 					<input type="radio" name="my-accordion-1" defaultChecked={true} />
 					<div className="collapse-title text-xl ">Additional info</div>
-					<div className="collapse-content">
-						Address : {lecturer?.address}
-					</div>
+					<div className="collapse-content">Address : {lecturer?.address}</div>
 					<div className="collapse collapse-arrow bg-base-200">
 						<input type="radio" name="my-accordion-1" />
 						<div className="collapse-title text-xl font-medium">enrolments</div>

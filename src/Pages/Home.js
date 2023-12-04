@@ -5,16 +5,7 @@ const Home = () => {
 
 	return (
 		<>
-			{!authenticated && (
-				<>
-					<Link className="btn text-xl bg-neutral-800" to={"/Login"}>
-						Login
-					</Link>{" "}
-					<Link className="btn text-xl bg-neutral-800" to={"/Register"}>
-						Register
-					</Link>
-				</>
-			)}
+
 			<div>
 				<div className="diff h-screen">
 				<div className="diff-item-1">
