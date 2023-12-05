@@ -36,7 +36,7 @@ const Index = () => {
 			<div key={index}>
 				{authenticated ? (
 					<>
-						<CourseCard props={course}/>
+						<CourseCard props={course} />
 					</>
 				) : (
 					<></>
@@ -46,8 +46,9 @@ const Index = () => {
 	});
 	return (
 		<>
-			<h1 className="mb-4 text-4xl place-content-center ">All Courses</h1>
 			<div className="container mx-auto">
+			<h1 className="my-4 text-4xl place-content-center ">All Courses</h1>
+
 				{authenticated && (
 					<>
 						{" "}

@@ -27,7 +27,7 @@ const SingleLecturer = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [id, token]);
+	}, [id, token,setAlert]);
 
 	let enrolments = null;
 
@@ -42,7 +42,7 @@ const SingleLecturer = () => {
 				>
 					<div className=" bg-base-200">
 						<Link to={`/course/${enrolment.course?.id}`}>
-							<p className="mb-2 text-3xl text-zinc-0">
+							<p className="mb-2 text-3xl text-zinc-200">
 								Course Title: {enrolment.course?.title}
 							</p>
 						</Link>
@@ -107,7 +107,9 @@ const SingleLecturer = () => {
 							<form method="dialog">
 								{/* if there is a button in form, it will close the modal */}
 								<button className="btn bg-neutral-800">Cancel</button>
-								<DeleteBtn resource={"lecturers"} id={id}>
+								<DeleteBtn resource={"lecturers"} data={lecturer.enrolments}  id={id}
+								    secondResource={lecturer.enrolments && lecturer.enrolments.length > 0 ? "enrolments" : null}
+									>
 									delete this lecturerm
 								</DeleteBtn>
 							</form>

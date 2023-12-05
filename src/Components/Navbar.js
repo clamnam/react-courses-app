@@ -6,9 +6,7 @@ const Navbar = () => {
 
 	const navigate = useNavigate();
 
-  
 	const logout = () => {
-
 		onAuthenticated(false);
 		navigate(`/`);
 	};
@@ -29,21 +27,20 @@ const Navbar = () => {
 				Enrolments
 			</Link>
 			{authenticated && (
-								<>
-
-											<span className="text-white ml-5">|</span>
-
-				<button className="text-white ml-4 px-2 py-1 rounded" onClick={logout}>
-					Logout
-				</button>
-				</>
-
-
-			)}
-						{!authenticated && (
 				<>
-							<span className="text-white p-4">|</span>
+					<span className="text-white ml-5">|</span>
 
+					<button
+						className="text-white ml-4 px-2 py-1 rounded"
+						onClick={logout}
+					>
+						Logout
+					</button>
+				</>
+			)}
+			{!authenticated && (
+				<>
+					<span className="text-white p-4">|</span>
 					<Link className="text-white " to={"/Login"}>
 						Login
 					</Link>{" "}

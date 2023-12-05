@@ -42,8 +42,9 @@ const LecturersIndex = () => {
 	});
 	return (
 		<>
-					<h1 className="mb-4 text-4xl place-content-center ">All Lecturers</h1>
 <div className="container mx-auto">
+<h1 className="my-4 text-4xl place-content-center ">All Lecturers</h1>
+
 					{authenticated &&(       <> <Link to="/lecturer/create" className="text-white text-xl my-4 btn  bg-base-200">Add a New Lecturer</Link></>  
 )}
 				<div className="grid grid-cols-1 gap-10">

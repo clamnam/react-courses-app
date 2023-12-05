@@ -22,8 +22,9 @@ const SingleCourse = () => {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				// console.log(response.data.data);
 				setCourse(response.data.data);
+				// Fetch enrolments data here or modify the API endpoint to include enrolments
+				// For example: axios.get(`https://college-api.vercel.app/api/courses/${id}?include=enrolments`)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -93,9 +94,15 @@ const SingleCourse = () => {
 							<form method="dialog">
 								{/* if there is a button in form, it will close the modal */}
 								<button className="btn">Cancel</button>
-								<DeleteBtn resource={"courses"} id={id}>
-									delete this course
-								</DeleteBtn>
+								<DeleteBtn
+    resource="courses"
+    secondResource={course.enrolments && course.enrolments.length > 0 ? "enrolments" : null}
+    data={course.enrolments}
+    id={id}
+>
+    delete this course
+</DeleteBtn>
+
 							</form>
 						</div>
 					</div>

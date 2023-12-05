@@ -44,8 +44,9 @@ const EnrolmentsIndex = () => {
 	});
 	return (
 		<>
-			<h1 className="mb-4 text-4xl place-content-center ">All Enrolments</h1>
 			<div className="container mx-auto">
+			<h1 className="my-4 text-4xl place-content-center ">All Enrolments</h1>
+
 				{authenticated && (
 					<>
 						{" "}

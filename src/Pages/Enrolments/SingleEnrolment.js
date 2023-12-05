@@ -12,12 +12,11 @@ const SingleEnrolment = () => {
 
 	let token = localStorage.getItem("token");
 
-	
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
 
 		axios
-	
+
 			.get(`https://college-api.vercel.app/api/enrolments/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
@@ -28,7 +27,7 @@ const SingleEnrolment = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [id, token,setAlert]);
+	}, [id, token, setAlert]);
 
 	if (!enrolment) {
 		return (
@@ -43,12 +42,13 @@ const SingleEnrolment = () => {
 		<>
 			<>
 				{" "}
-				<p className="flex items-center justify-center text-lg bg-red-500 text-white ">{alert}</p>
-
+				<p className="flex items-center justify-center text-lg bg-red-500 text-white ">
+					{alert}
+				</p>
 				<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">
 					<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 						<div>
-							<Link to={`/lecturer/${enrolment.course?.id}`}>
+							<Link to={`/lecturer/${enrolment.course?.id}`} className="text-purple-500">
 								Course Title: {enrolment.course.title}
 							</Link>
 						</div>
@@ -65,25 +65,27 @@ const SingleEnrolment = () => {
 						Edit this enrolment
 					</Link>
 
-					<button className="btn bg-neutral-800" onClick={()=>document.getElementById('my_modal_1').showModal()}>Delete</button>
-<dialog id="my_modal_1" className="modal">
-  <div className="modal-box">
-    <h3 className="font-bold text-lg ">Delete Enrolment</h3>
-    <p className="py-4">Are you Sure</p>
-    <div className="modal-action">
-      <form method="dialog">
-        {/* if there is a button in form, it will close the modal */}
-        <button className="btn bg-neutral-800">Cancel</button>
-		<DeleteBtn
-						resource={"enrolments"}
-						id={id}
+					<button
+						className="btn bg-neutral-800"
+						onClick={() => document.getElementById("my_modal_1").showModal()}
 					>
-						delete this enrolment
-					</DeleteBtn>
-      </form>
-    </div>
-  </div>
-</dialog>
+						Delete
+					</button>
+					<dialog id="my_modal_1" className="modal">
+						<div className="modal-box">
+							<h3 className="font-bold text-lg ">Delete Enrolment</h3>
+							<p className="py-4">Are you Sure</p>
+							<div className="modal-action">
+								<form method="dialog">
+									{/* if there is a button in form, it will close the modal */}
+									<button className="btn bg-neutral-800">Cancel</button>
+									<DeleteBtn resource={"enrolments"}  id={id}>
+										delete this enrolment
+									</DeleteBtn>
+								</form>
+							</div>
+						</div>
+					</dialog>
 
 					<p className="text-zinc-800  overflow-auto ">
 						<p className="text-neutral-800">
