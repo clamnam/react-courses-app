@@ -20,13 +20,14 @@ const DeleteBtn = ({ id, resource, secondResource, data, deleteCallback }) => {
             try {
                 for (let x = 0; x < data.length; x++) {
                     console.log(data[x]);
+
                     await axios.delete(
                         `https://college-api.vercel.app/${secondResource}/${data[x].id}`,
                         {
                             headers: { Authorization: `Bearer ${token}` },
                         }
                     );
-                    console.log(`Enrolment ${data[x].id} deleted successfully`);
+                    setAlert(`Enrolment ${data[x].id} deleted successfully`);
                 }
             } catch (err) {
                 console.log(err);
@@ -39,15 +40,16 @@ const DeleteBtn = ({ id, resource, secondResource, data, deleteCallback }) => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log(`Resource ${resource}/${id} deleted successfully`);
-                setAlert(id, ' deleted successfully');
+                setAlert(`${resource} deleted successfully`);
                 deleteCallback(id);
-                Navigate(`/{resource}s`);
+                console.log(resource)
+                Navigate(`/${resource}`);
             } catch (err) {
                 console.log(err);
             }
         };
 
-        if (data.length > 0) {
+        if (data?.length > 0) {
             await deleteEnrolments();
             await deleteResource();
         } else {

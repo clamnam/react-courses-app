@@ -5,17 +5,17 @@ import LoginForm from "../../Components/LoginForm";
 import { useAuth } from "../../contexts/AuthContext";
 import EnrolmentCard from "../../Components/Cards/EnrolmentCard";
 const EnrolmentsIndex = () => {
-	const { authenticated } = useAuth();
+	const { authenticated ,setAlert,alert} = useAuth();
 
 	let token = localStorage.getItem("token");
 	const [enrolments, setEnrolments] = useState([]);
 	useEffect(() => {
+		setTimeout(() => setAlert(""), 5000);
 		axios
 			.get("https://college-api.vercel.app/api/enrolments", {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				console.log(response.data);
 				setEnrolments(response.data.data);
 			})
 			.catch((err) => {
@@ -44,6 +44,9 @@ const EnrolmentsIndex = () => {
 	});
 	return (
 		<>
+					<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
+				{alert}
+			</p>
 			<div className="container mx-auto">
 			<h1 className="my-4 text-4xl place-content-center ">All Enrolments</h1>
 

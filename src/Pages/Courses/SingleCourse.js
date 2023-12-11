@@ -9,27 +9,69 @@ const SingleCourse = () => {
 	let { id } = useParams();
 	const [course, setCourse] = useState(null);
 	const [error, setError] = useState("null");
+	const [backgroundPhoto, setBackgroundPhoto] = useState(null);
+
 	const { setAlert, alert } = useAuth();
+
 	let token = localStorage.getItem("token");
 
-	// const deleteConfirm = () => {
-	// 	return
-	// };
+	const deleteCourse = () => {
+		return <>error deleting course</>;
+	};
+
+	useEffect(() => {
+
+		axios
+			.get(
+				`https://api.pexels.com/v1/search?query=${course?.title}&per_page=1`,
+				{
+					headers: {
+						Authorization: "Your-Pexels-API-Key",
+					},
+				}
+			)
+			.then((response) => {
+				// Assuming the response structure is like { data: { photos: [...] } }
+				const photoUrl = response.data.photos[0]?.src.original;
+				setBackgroundPhoto(photoUrl);
+			})
+			.catch((err) => {
+				console.error("Error fetching background photo:", err);
+			});
+	}, [course?.title]);
+
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
+		const pexelsQuery = course?.title.replace(/\s/g, "%20");
 		axios
 			.get(`https://college-api.vercel.app/api/courses/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
 				setCourse(response.data.data);
-				// Fetch enrolments data here or modify the API endpoint to include enrolments
-				// For example: axios.get(`https://college-api.vercel.app/api/courses/${id}?include=enrolments`)
+
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [id, token, setAlert]);
+
+			axios
+			.get(
+				`https://api.pexels.com/v1/search?query=${pexelsQuery}&per_page=1`,
+				{
+					headers: {
+						Authorization: "Your-Pexels-API-Key",
+					},
+				}
+			)
+			.then((response) => {
+				const photoUrl = response.data.photos[0]?.src.original;
+				setBackgroundPhoto(photoUrl);
+			})
+			.catch((err) => {
+				console.error("Error fetching background photo:", err);
+			});
+	}, [id, token, setAlert,course?.title]);
 
 	let enrolments = null;
 
@@ -44,8 +86,12 @@ const SingleCourse = () => {
 				>
 					<div className=" bg-base-200">
 						<Link to={`/lecturer/${enrolment.lecturer?.id}`}>
-							<p>Lecturer: {enrolment.lecturer.name}</p>
+							<p className="mb-2 text-3xl text-zinc-200 hover:underline">
+								Lecturer: {enrolment.lecturer.name}
+							</p>
 						</Link>
+						<p>Email: {enrolment.lecturer.email}</p>
+
 						<p>Status: {enrolment.status}</p>
 						<hr className="" />
 						<br />
@@ -69,7 +115,9 @@ const SingleCourse = () => {
 			<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
 				{alert}
 			</p>
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md">
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md single-course-container"
+				style={{ backgroundImage: `url(${backgroundPhoto})` }}
+			>
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{course?.title}
 				</h2>
@@ -95,20 +143,25 @@ const SingleCourse = () => {
 								{/* if there is a button in form, it will close the modal */}
 								<button className="btn">Cancel</button>
 								<DeleteBtn
-    resource="courses"
-    secondResource={course.enrolments && course.enrolments.length > 0 ? "enrolments" : null}
-    data={course.enrolments}
-    id={id}
->
-    delete this course
-</DeleteBtn>
-
+									deleteCallback={deleteCourse}
+									resource="courses"
+									secondResource={
+										course.enrolments && course.enrolments.length > 0
+											? "enrolments"
+											: null
+									}
+									data={course.enrolments}
+									id={id}
+								>
+									delete this course
+								</DeleteBtn>
 							</form>
 						</div>
 					</div>
 				</dialog>
 
-				<p className="text-zinc-800 ">Course Code : {course?.code}</p>
+				<p className="text-zinc-800 my-6 ">Course Code : {course?.code}</p>
+
 				<p className="text-zinc-800 mb-8">{course?.description}</p>
 				<div className="collapse collapse-arrow bg-base-200">
 					<input type="radio" name="my-accordion-1" defaultChecked={true} />

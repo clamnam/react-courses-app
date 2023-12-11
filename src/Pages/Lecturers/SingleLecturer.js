@@ -12,7 +12,9 @@ const SingleLecturer = () => {
 	const [error, setError] = useState("null");
 
 	let token = localStorage.getItem("token");
-
+	const deleteLecturer = () => {
+		return <>error deleting lecturer</>
+	};
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
 
@@ -21,7 +23,7 @@ const SingleLecturer = () => {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				console.log(response.data.data);
+				// console.log(response.data.data);
 				setLecturer(response.data.data);
 			})
 			.catch((err) => {
@@ -42,7 +44,7 @@ const SingleLecturer = () => {
 				>
 					<div className=" bg-base-200">
 						<Link to={`/course/${enrolment.course?.id}`}>
-							<p className="mb-2 text-3xl text-zinc-200">
+							<p className="mb-2 text-3xl text-zinc-200 hover:underline">
 								Course Title: {enrolment.course?.title}
 							</p>
 						</Link>
@@ -82,7 +84,7 @@ const SingleLecturer = () => {
 			<p className="flex items-center justify-center text-lg bg-red-500 text-white ">
 				{alert}
 			</p>
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 					{lecturer?.name}
 				</h2>
@@ -107,7 +109,7 @@ const SingleLecturer = () => {
 							<form method="dialog">
 								{/* if there is a button in form, it will close the modal */}
 								<button className="btn bg-neutral-800">Cancel</button>
-								<DeleteBtn resource={"lecturers"} data={lecturer.enrolments}  id={id}
+								<DeleteBtn resource={"lecturers"} data={lecturer.enrolments} deleteCallback={deleteLecturer}  id={id}
 								    secondResource={lecturer.enrolments && lecturer.enrolments.length > 0 ? "enrolments" : null}
 									>
 									delete this lecturerm
@@ -126,7 +128,7 @@ const SingleLecturer = () => {
 					<div className="collapse-content">Address : {lecturer?.address}</div>
 					<div className="collapse collapse-arrow bg-base-200">
 						<input type="radio" name="my-accordion-1" />
-						<div className="collapse-title text-xl font-medium">enrolments</div>
+						<div className="collapse-title text-xl font-medium ">Enrolments</div>
 						<div className="collapse-content">
 							{enrolments ? enrolments : <p>No enrolments available.</p>}
 						</div>

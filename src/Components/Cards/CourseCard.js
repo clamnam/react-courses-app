@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 const CourseCard = (props) =>{
 let card;
     props = props.props
-    console.log(props)
 card =(					<>
     <div className="card bg-base-200  border border-black px-6 overflow-hidden shadow-lg flex flex-col">
         <div className="card-body">
