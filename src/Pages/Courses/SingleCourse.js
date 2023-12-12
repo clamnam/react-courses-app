@@ -19,26 +19,7 @@ const SingleCourse = () => {
 		return <>error deleting course</>;
 	};
 
-	useEffect(() => {
 
-		axios
-			.get(
-				`https://api.pexels.com/v1/search?query=${course?.title}&per_page=1`,
-				{
-					headers: {
-						Authorization: "Your-Pexels-API-Key",
-					},
-				}
-			)
-			.then((response) => {
-				// Assuming the response structure is like { data: { photos: [...] } }
-				const photoUrl = response.data.photos[0]?.src.original;
-				setBackgroundPhoto(photoUrl);
-			})
-			.catch((err) => {
-				console.error("Error fetching background photo:", err);
-			});
-	}, [course?.title]);
 
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
@@ -60,7 +41,8 @@ const SingleCourse = () => {
 				`https://api.pexels.com/v1/search?query=${pexelsQuery}&per_page=1`,
 				{
 					headers: {
-						Authorization: "Your-Pexels-API-Key",
+						Authorization: "5zhsDrAO5uynl0lesA8wH6YNvfIgB47vbcPyt08xQ5hejBenR2FuEuGO",
+						
 					},
 				}
 			)
@@ -112,11 +94,11 @@ const SingleCourse = () => {
 	return (
 		<>
 			{" "}
+			{/* alert displayed if there is one */}
 			<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
 				{alert}
 			</p>
 			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md single-course-container"
-				style={{ backgroundImage: `url(${backgroundPhoto})` }}
 			>
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{course?.title}
@@ -128,6 +110,8 @@ const SingleCourse = () => {
 				>
 					Edit this course
 				</Link>
+				{/* modal to confirm users decision to delete the course */}
+
 				<button
 					className="btn bg-neutral-800"
 					onClick={() => document.getElementById("my_modal_1").showModal()}
@@ -140,7 +124,6 @@ const SingleCourse = () => {
 						<p className="py-4">Are you Sure</p>
 						<div className="modal-action">
 							<form method="dialog">
-								{/* if there is a button in form, it will close the modal */}
 								<button className="btn">Cancel</button>
 								<DeleteBtn
 									deleteCallback={deleteCourse}
@@ -158,11 +141,13 @@ const SingleCourse = () => {
 							</form>
 						</div>
 					</div>
-				</dialog>
+				</dialog>			
+				{/* if photo not found displays text to inform user */}
+				{backgroundPhoto ?  (<img className="my-2 rounded-md" src={backgroundPhoto} alt="generated depiction of course "></img>) : (<><br/><p className=" my-3 text-red-600">no photo found...</p></>)}
+									
+				<p className="text-zinc-800 my-2 ">Course Code : {course?.code}</p>
 
-				<p className="text-zinc-800 my-6 ">Course Code : {course?.code}</p>
-
-				<p className="text-zinc-800 mb-8">{course?.description}</p>
+				<p className="text-zinc-800 my-2">{course?.description}</p>
 				<div className="collapse collapse-arrow bg-base-200">
 					<input type="radio" name="my-accordion-1" defaultChecked={true} />
 					<div className="collapse-title text-xl ">Additional info</div>

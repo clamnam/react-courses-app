@@ -47,8 +47,8 @@ const EnrolmentsIndex = () => {
 					<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
 				{alert}
 			</p>
-			<div className="container mx-auto">
-			<h1 className="my-4 text-4xl place-content-center ">All Enrolments</h1>
+			<div className="container mx-auto pb-8">
+			<h1 className="my-4 text-4xl place-content-center text-neutral-900">All Enrolments</h1>
 
 				{authenticated && (
 					<>

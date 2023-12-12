@@ -67,6 +67,8 @@ function App() {
 	return (
 		<Router>
 			<Navbar authenticated={authenticated} onAuthenticated={onAuthenticated} />
+			<div className="bg-stone-500">
+			<>
 			<Routes>
 
 				<Route path="/" element={<Home />} />
@@ -78,6 +80,8 @@ function App() {
 				<Route path="/login" element={<LoginForm />} />
 				{protectedRoutes}
 			</Routes>
+			</>
+			</div>
 		</Router>
 	);
 }

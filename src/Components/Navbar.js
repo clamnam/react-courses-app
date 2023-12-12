@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import { useAuth } from "../contexts/AuthContext";
 const Navbar = () => {
 	const { authenticated, onAuthenticated } = useAuth();
@@ -11,12 +10,14 @@ const Navbar = () => {
 		navigate(`/`);
 	};
 
+
 	return (
-		<div className="bg-blue-800 p-4">
+		<div data-theme='cupcake'className="bg-blue-800 p-4">
 			<Link to="/" className="text-white mr-4">
 				Home
 			</Link>
 			<span className="text-white">|</span>
+			<></>
 			<Link to="/courses" className="text-white ml-4">
 				Courses
 			</Link>
@@ -26,6 +27,7 @@ const Navbar = () => {
 			<Link to="/enrolments" className="text-white ml-4">
 				Enrolments
 			</Link>
+
 			{authenticated && (
 				<>
 					<span className="text-white ml-5">|</span>
@@ -50,7 +52,7 @@ const Navbar = () => {
 				</>
 			)}
 		</div>
-	);
+);
 };
 
 export default Navbar;

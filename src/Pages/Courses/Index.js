@@ -46,8 +46,8 @@ const Index = () => {
 	});
 	return (
 		<>
-			<div className="container mx-auto">
-			<h1 className="my-4 text-4xl place-content-center ">All Courses</h1>
+			<div className="container mx-auto pb-8">
+			<h1 className="mb-4 pt-4 text-4xl place-content-center text-neutral-900 ">All Courses</h1>
 
 				{authenticated && (
 					<>

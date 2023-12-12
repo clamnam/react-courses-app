@@ -42,8 +42,11 @@ const LecturersIndex = () => {
 	});
 	return (
 		<>
-<div className="container mx-auto">
-<h1 className="my-4 text-4xl place-content-center ">All Lecturers</h1>
+							<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
+				{alert}
+			</p>
+<div className="container mx-auto pb-8">
+<h1 className="mb-4 py-4 text-4xl place-content-center text-neutral-900 ">All Lecturers</h1>
 
 					{authenticated &&(       <> <Link to="/lecturer/create" className="text-white text-xl my-4 btn  bg-base-200">Add a New Lecturer</Link></>  
 )}

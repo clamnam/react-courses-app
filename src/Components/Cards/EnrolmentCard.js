@@ -4,7 +4,7 @@ let card;
     props = props.props
 card =(					
     <>
-    <div className="card bg-base-200 border border-black px-6 overflow-hidden shadow-lg flex flex-col">
+    <div className="card bg-neutral-900 border border-black px-6 overflow-hidden shadow-lg flex flex-col">
         <div className="card-body">
             <div className="overflow-y-hidden">
                 <h2 className="card-title text-neutral-100">

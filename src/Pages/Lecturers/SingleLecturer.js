@@ -45,7 +45,7 @@ const SingleLecturer = () => {
 					<div className=" bg-base-200">
 						<Link to={`/course/${enrolment.course?.id}`}>
 							<p className="mb-2 text-3xl text-zinc-200 hover:underline">
-								Course Title: {enrolment.course?.title}
+								{enrolment.course?.title}
 							</p>
 						</Link>
 
