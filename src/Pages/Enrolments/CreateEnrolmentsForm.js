@@ -5,7 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const CreateEnrolmentForm = () => {
 	const navigate = useNavigate();
-	const { authenticated ,setAlert} = useAuth();
+	const { authenticated, setAlert } = useAuth();
 	const [lecturers, setLecturers] = useState([]);
 	const [courses, setCourses] = useState([]);
 	const [selectedLecturer, setSelectedLecturer] = useState("");
@@ -21,8 +21,6 @@ const CreateEnrolmentForm = () => {
 			.then((response) => {
 				setCourses(response.data.data);
 				setAlert("Success adding Enrolment!");
-
-
 			})
 			.catch((err) => {
 				console.log(err);
@@ -72,7 +70,7 @@ const CreateEnrolmentForm = () => {
 		let date =
 			currentDate.getFullYear() +
 			"-" +
-			currentDate.getMonth() +
+			(currentDate.getMonth() + 1) +
 			"-" +
 			currentDate.getDate();
 		console.log(date);
@@ -154,52 +152,53 @@ const CreateEnrolmentForm = () => {
 	return (
 		<div className="h-screen flex items-center justify-center ">
 			<div className="p-8 rounded shadow-2xl w-full max-w-md  text-white">
-				<div className="mb-6 text-4xl">Create a enrolment</div>
+				<div className="mb-6 text-4xl">Create an enrolment</div>
 
 				<div className="mb-4">
-					<label className="block">status:</label>
-					<input
-						onChange={handleForm}
-						type="text"
+					<label className="block">Status:</label>
+					<select
 						name="status"
+						id="status"
+						onChange={handleForm}
 						value={form.status}
-						className="input-field"
-					/>
-										<p className="text-red-500">{error.status}</p>
-
-
-					<div className="mb-4">
-						<label className="block">Course id:</label>
-						<select
-							name="course_id"
-							id="courses"
-							value={form.course_id}
-							onChange={handleCourseChange}
-						>
-							<option>please select</option>
-
-							{courses && coursesDrop}
-						</select>
-						<p className="text-red-500">{error.course_id}</p>
-
-					</div>
-					<br />
-					<div className="mb-4">
-						<label className="block">Lecturer id:</label>
-						<select
-							name="lecturer_id"
-							id="lecturers"
-							value={form.lecturer_id}
-							onChange={handleLecturerChange}
-						>
-							<option>please select</option>
-
-							{lecturers && lecturersDrop}
-						</select>
-						<p className="text-red-500">{error.lecturer_id}</p>
-
-					</div>
+					>
+						<option value="">Choose Status</option>
+						<option value="interested">Interested</option>
+						<option value="assigned">Assigned</option>
+						<option value="associate">Associate</option>
+						<option value="career_break">Career Break</option>
+					</select>
+					<p className="text-red-500">{error.status}</p>
 				</div>
+
+				<div className="mb-4">
+					<label className="block">Course id:</label>
+					<select
+						name="course_id"
+						id="courses"
+						value={form.course_id}
+						onChange={handleCourseChange}
+					>
+						<option value="">Please select</option>
+						{courses && coursesDrop}
+					</select>
+					<p className="text-red-500">{error.course_id}</p>
+				</div>
+
+				<div className="mb-4">
+					<label className="block">Lecturer id:</label>
+					<select
+						name="lecturer_id"
+						id="lecturers"
+						value={form.lecturer_id}
+						onChange={handleLecturerChange}
+					>
+						<option value="">Please select</option>
+						{lecturers && lecturersDrop}
+					</select>
+					<p className="text-red-500">{error.lecturer_id}</p>
+				</div>
+
 				{errMessage && <div className="text-red-500 mb-4">{errMessage}</div>}
 
 				<div className="flex justify-between">

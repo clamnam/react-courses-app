@@ -23,6 +23,7 @@ const SingleCourse = () => {
 
 	useEffect(() => {
 		setTimeout(() => setAlert(""), 5000);
+		
 		const pexelsQuery = course?.title.replace(/\s/g, "%20");
 		axios
 			.get(`https://college-api.vercel.app/api/courses/${id}`, {

@@ -10,9 +10,11 @@ card =(					<>
             </h2>
             <p className=" ">{props.description}</p>
             <div className="card-actions justify-end">
+            <Link to={`/course/${props.id}`}>
                 <button className="btn  btn-primary">
-                    <Link to={`/course/${props.id}`}>Check it out</Link>
+                    Check it out
                 </button>
+                </Link>
             </div>
         </div>
     </div>

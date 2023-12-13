@@ -48,7 +48,6 @@ const CreateCourseForm = () => {
 			)
 			.then((response) => {
 				const data = response.data.data;
-				console.log(data.id);
 				setAlert("Success adding course!");
 				navigate(`/course/${data.id}`);
 			})

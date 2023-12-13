@@ -67,7 +67,7 @@ function App() {
 	return (
 		<Router>
 			<Navbar authenticated={authenticated} onAuthenticated={onAuthenticated} />
-			<div className="bg-stone-500">
+			<div className="bg-stone-500 min-h-screen">
 			<>
 			<Routes>
 

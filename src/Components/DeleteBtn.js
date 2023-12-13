@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const DeleteBtn = ({ id, resource, secondResource, data, deleteCallback }) => {
     const Navigate = useNavigate();
-    const { authenticated, onAuthenticated, setAlert } = useAuth();
+    const { authenticated, setAlert } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
 
     const onDelete = async () => {
@@ -42,7 +42,6 @@ const DeleteBtn = ({ id, resource, secondResource, data, deleteCallback }) => {
                 console.log(`Resource ${resource}/${id} deleted successfully`);
                 setAlert(`${resource} deleted successfully`);
                 deleteCallback(id);
-                console.log(resource)
                 Navigate(`/${resource}`);
             } catch (err) {
                 console.log(err);

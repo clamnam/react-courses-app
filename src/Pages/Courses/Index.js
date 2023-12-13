@@ -1,27 +1,46 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoginForm from "../../Components/LoginForm";
 import { useAuth } from "../../contexts/AuthContext";
 import CourseCard from "../../Components/Cards/CourseCard";
+
 const Index = () => {
 	const { authenticated } = useAuth();
+	const token = localStorage.getItem("token");
 
-	let token = localStorage.getItem("token");
 	const [courses, setCourses] = useState([]);
+	const [filteredCourses, setFilteredCourses] = useState([]);
+	const [sortOption, setSortOption] = useState("default"); // Default sort option
+
 	useEffect(() => {
 		axios
 			.get("https://college-api.vercel.app/api/courses", {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				// console.log(response.data);
 				setCourses(response.data.data);
+				setFilteredCourses(response.data.data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	}, [token]);
+
+	useEffect(() => {
+		// Apply sort when the sortOption changes
+		const sortFunctions = {
+			default: (a, b) => a, // No sorting
+			alphabetical: (a, b) => a.title.localeCompare(b.title),
+			reverseAlphabetical: (a, b) => b.title.localeCompare(a.title),
+			codeAscending: (a, b) => a.code.localeCompare(b.code),
+			codeDescending: (a, b) => b.code.localeCompare(a.code),
+		};
+
+		const sortedCourses = [...courses].sort(sortFunctions[sortOption]);
+
+		setFilteredCourses(sortedCourses);
+	}, [sortOption, courses]);
 
 	if (!authenticated) return <LoginForm />;
 	if (courses.length === 0)
@@ -31,41 +50,56 @@ const Index = () => {
 			</span>
 		);
 
-	const coursesList = courses.map((course, index) => {
-		return (
-			<div key={index}>
-				{authenticated ? (
-					<>
-						<CourseCard props={course} />
-					</>
-				) : (
-					<></>
-				)}
-			</div>
-		);
-	});
+	const coursesList = filteredCourses.map((course, index) => (
+		<div key={index}>
+			{authenticated ? (
+				<>
+					<CourseCard props={course} />
+				</>
+			) : (
+				<></>
+			)}
+		</div>
+	));
+
 	return (
 		<>
 			<div className="container mx-auto pb-8">
-			<h1 className="mb-4 pt-4 text-4xl place-content-center text-neutral-900 ">All Courses</h1>
+				<h1 className="mb-4 pt-4 text-4xl place-content-center text-neutral-900 ">
+					All Courses
+				</h1>
 
 				{authenticated && (
 					<>
 						{" "}
+						
 						<Link
 							to="/course/create"
 							className="text-white  text-xl my-4 btn  bg-base-200"
 						>
 							Create a New Course
 						</Link>
+
+						<select
+							value={sortOption}
+							onChange={(e) => setSortOption(e.target.value)}
+							className="text-white  text-xl m-4 btn  bg-base-200"
+						>
+							<option value="default">Filter</option>
+							<option value="alphabetical">Alphabetical</option>
+							<option value="reverseAlphabetical">Reverse Alphabetical</option>
+							<option value="codeAscending">Code Ascending</option>
+							<option value="codeDescending">Code Descending</option>
+						</select>
 					</>
 				)}
+
 				<div className="grid grid-cols-1 gap-10">
 					{authenticated ? (
-						courses ? (
+						filteredCourses.length > 0 ? (
 							coursesList
 						) : (
-							<>no courses found</>
+							<>No courses found</>
 						)
 					) : (
 						<LoginForm />

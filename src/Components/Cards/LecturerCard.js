@@ -18,10 +18,11 @@ card =(					<>
 								</div>
 								</div>
 								<div className="card-actions justify-end">
-									<button className="btn  btn-primary">
-									<Link to={`/lecturer/${props.id}`}>Check it out</Link>
-
-									</button>
+								<Link to={`/lecturer/${props.id}`}>
+                <button className="btn  btn-primary">
+                    Check it out
+                </button>
+                </Link>
 								</div>
 							</div>
 						</div>
