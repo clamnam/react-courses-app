@@ -47,7 +47,7 @@ const RegisterForm = () => {
     <div className="flex items-center justify-center h-screen ">
 		
       <div className=" p-8 rounded shadow-2xl w-full max-w-md bg-dar">
-        <div className="text-4xl text-center mb-4 text-white">Register!</div>
+        <div className="text-4xl text-left mb-4 text-white">Register!</div>
 
         <div className="mb-4">
           <label className="block ">Name:</label>
@@ -79,14 +79,14 @@ const RegisterForm = () => {
           />
         </div>
 
-        {error && <div className="text-pink-500 mb-4">{error}</div>}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
         <div className="flex justify-between">
-          <button onClick={handleClick} className="bg-pink-500  btn btn-sm  text-white">
+          <button onClick={handleClick} className="  btn btn-sm  text-white">
             Submit
           </button>
 
-          <button onClick={handleLoginClick} className=" btn btn-sm bg-pink-500 text-white">
+          <button onClick={handleLoginClick} className=" btn btn-sm  text-white">
             Login
           </button>
         </div>
