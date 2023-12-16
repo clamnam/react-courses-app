@@ -25,6 +25,7 @@ const CreateCourseForm = () => {
 
 	const [errMessage, setErrMessage] = useState("");
 
+	// get data on the course that is intending to be edited
 	useEffect(() => {
 		axios
 			.get(`https://college-api.vercel.app/api/courses/${id}`, {

@@ -3,11 +3,15 @@ import { useContext, createContext, useState } from "react";
 const AuthContext = createContext(null);
 
 export function useAuth() {
+	// cusotom context to access current users auth data
 	const value = useContext(AuthContext);
 	return value;
 }
 
+
+
 export function AuthProvider(props) {
+	// state variables to pass authentication data and alert data to children
 	const [authenticated, setAuthenticated] = useState(false);
 	const [alert, setAlert] = useState("");
 

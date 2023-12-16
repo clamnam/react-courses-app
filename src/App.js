@@ -32,12 +32,11 @@ import EditEnrolmentForm from "./Pages/Enrolments/EditEnrolmentsForm";
 
 
 import { useAuth } from "./contexts/AuthContext";
-// import Navbar from "./components/Navbar";
 
 function App() {
 	const { authenticated, onAuthenticated } = useAuth();
 
-
+// routes prevented from access unless authed
 	const protectedRoutes = authenticated && (
 		<>
 			<Route path="/" element={<Home />} />
@@ -67,7 +66,7 @@ function App() {
 	return (
 		<Router>
 			<Navbar authenticated={authenticated} onAuthenticated={onAuthenticated} />
-			<div className="bg-stone-500 min-h-screen">
+			<div className="bg-stone-300 min-h-screen">
 			<>
 			<Routes>
 

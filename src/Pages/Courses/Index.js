@@ -28,9 +28,9 @@ const Index = () => {
 	}, [token]);
 
 	useEffect(() => {
-		// Apply sort when the sortOption changes
+		// Apply sort when the sort Option changes
 		const sortFunctions = {
-			default: (a, b) => a, // No sorting
+			default: (a, b) => a, // original sorting
 			alphabetical: (a, b) => a.title.localeCompare(b.title),
 			reverseAlphabetical: (a, b) => b.title.localeCompare(a.title),
 			codeAscending: (a, b) => a.code.localeCompare(b.code),
@@ -83,7 +83,7 @@ const Index = () => {
 						<select
 							value={sortOption}
 							onChange={(e) => setSortOption(e.target.value)}
-							className="text-white  text-xl m-4 btn  bg-base-200"
+							className="text-white  text-xl m-3 p-1 btn  bg-base-200"
 						>
 							<option value="default">Filter</option>
 							<option value="alphabetical">Alphabetical</option>

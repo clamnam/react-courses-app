@@ -84,7 +84,7 @@ const SingleLecturer = () => {
 			<p className="flex items-center justify-center text-lg bg-red-500 text-white ">
 				{alert}
 			</p>
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md">
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">
 				<h2 className="text-3xl text-zinc-800 font-bold mb-2">
 					{lecturer?.name}
 				</h2>

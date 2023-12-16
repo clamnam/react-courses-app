@@ -8,6 +8,8 @@ card =(					<>
             <h2 className="card-title text-neutral-100">
                 <Link to={`/course/${props.id}`}>{props.title}</Link>
             </h2>
+            <p className=" ">Course Code : {props.code}</p>
+
             <p className=" ">{props.description}</p>
             <div className="card-actions justify-end">
             <Link to={`/course/${props.id}`}>

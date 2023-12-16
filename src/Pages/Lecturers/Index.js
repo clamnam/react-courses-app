@@ -67,14 +67,14 @@ const LecturersIndex = () => {
 						{" "}
 						<Link
 							to="/lecturer/create"
-							className="text-white text-xl m-4 btn  bg-base-200"
+							className="text-white text-xl  btn  bg-base-200"
 						>
 							Add a New Lecturer
 						</Link>
 						<select
 							value={sortOption}
 							onChange={(e) => setSortOption(e.target.value)}
-							className="  text-white text-xl my-4 btn  bg-base-200"
+							className="  text-white text-xl m-3 p-1 btn  bg-base-200"
 						>
 							<option value="default">Filter</option>
 							<option value="nameAscending">Name Ascending</option>

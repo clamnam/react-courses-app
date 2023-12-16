@@ -99,7 +99,7 @@ const SingleCourse = () => {
 			<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
 				{alert}
 			</p>
-			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-600 shadow-md rounded-md single-course-container"
+			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md single-course-container"
 			>
 				<h2 className="text-3xl text-zinc-800 font-bold mb-4">
 					{course?.title}
