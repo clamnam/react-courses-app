@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import {  useEffect } from "react";
 
-// pages
+// define pages
 import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import RegisterForm from "./Components/RegisterForm";
