@@ -5,8 +5,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
 
 const CreateLecturerForm = () => {
+	
 	const Navigate = useNavigate();
-	const { authenticated, onAuthenticated, setAlert } = useAuth();
+	const { authenticated, setAlert } = useAuth();
 
 	let token = localStorage.getItem("token");
 	useEffect(() => {
@@ -14,6 +15,7 @@ const CreateLecturerForm = () => {
 			Navigate("/");
 		}
 	}, [Navigate, authenticated]);
+	// sets form + error state
 	const [form, setForm] = useState({
 		name: "",
 		address: "",
@@ -26,17 +28,19 @@ const CreateLecturerForm = () => {
 		address: "",
 		phone: "",
 		email: "",
-	  });
+	});
 	
 	
 	
 	const [errMessage, setErrMessage] = useState("");
 
 	const handleClick = () => {
+		// sends post request to create lecturer
 		axios
 			.post(
 				"https://college-api.vercel.app/lecturers",
 				{
+					 // sends post request to create lecturer 
 					name: form.name,
 					address: form.address,
 					phone: form.phone,
@@ -69,6 +73,7 @@ const CreateLecturerForm = () => {
 			});
 	};
 
+	// sets form state to input values
 	const handleForm = (e) => {
 		setForm((prevState) => ({
 			...prevState,

@@ -17,6 +17,7 @@ const CreateEnrolmentForm = () => {
 	// 	career_break
 	// ]);
 
+	// sets form + error state
 	const [lecturers, setLecturers] = useState([]);
 	const [courses, setCourses] = useState([]);
 	const [form, setForm] = useState({
@@ -27,11 +28,8 @@ const CreateEnrolmentForm = () => {
 		lecturer_id: "",
 	});
 	
-
-
-
-
 	const [errMessage, setErrMessage] = useState("");
+
 
 	useEffect(() => {
 		axios
@@ -40,6 +38,7 @@ const CreateEnrolmentForm = () => {
 			})
 			.then((response) => {
 				setForm({
+					// sets form state to the data from the current enrolment
 					date: response.data.data.date || "",
 					time: response.data.data.time || "",
 					status: response.data.data.status || "",
@@ -103,20 +102,21 @@ const CreateEnrolmentForm = () => {
 			});
 	};
 
+	// sets lecturer state to the value of the selected option
 	const handleLecturerChange = (e) => {
 		setForm((prevState) => ({
 			...prevState,
 			lecturer_id: e.target.value,
 		}));
 	};
-
+	// sets course state to the value of the selected option
 	const handleCourseChange = (e) => {
 		setForm((prevState) => ({
 			...prevState,
 			course_id: e.target.value,
 		}));
 	};
-
+// sets form state to input values
 	const handleForm = (e) => {
 		setForm((prevState) => ({
 			...prevState,
@@ -126,7 +126,7 @@ const CreateEnrolmentForm = () => {
 
 	let coursesDrop;
 	let lecturersDrop;
-
+	// maps through courses and lecturers to create options for the select elements
 	if (courses && lecturers) {
 		coursesDrop = courses.map((course) => (
 			<option key={course.id} value={course.id}>

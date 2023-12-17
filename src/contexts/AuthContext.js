@@ -15,7 +15,7 @@ export function AuthProvider(props) {
 	const [authenticated, setAuthenticated] = useState(false);
 	const [alert, setAlert] = useState("");
 
-
+	// defines the actual component of Authcontext provider with a prop that passes all the properties to everything within it
 	return (
 		<AuthContext.Provider
 			value={{

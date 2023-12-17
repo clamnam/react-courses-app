@@ -3,10 +3,13 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CreateLecturerForm = () => {
+	// gets id from url
 	let { id } = useParams();
+	
 	const navigate = useNavigate();
 	let token = localStorage.getItem("token");
 
+	// sets form state and lecturer data to be inserted in form
 	const [lecturerData, setLecturerData] = useState({
 		name: "",
 		address: "",
@@ -25,6 +28,7 @@ const CreateLecturerForm = () => {
 	const [errMessage, setErrMessage] = useState("");
 
 	useEffect(() => {
+		// gets lecturer data
 		axios
 			.get(`https://college-api.vercel.app/api/lecturers/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -50,6 +54,7 @@ const CreateLecturerForm = () => {
 
 	const handleClick = () => {
 		axios
+		// sends put request to update lecturer
 			.put(
 				`https://college-api.vercel.app/lecturers/${id}`,
 				{
@@ -73,6 +78,7 @@ const CreateLecturerForm = () => {
 	};
 
 	const handleForm = (e) => {
+		// sets form state to the data from the form
 		setForm((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,

@@ -4,9 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const LoginForm = () => {
+	// defines onauthenticated as brought from the context provider
 	const { onAuthenticated } = useAuth();
+	// sets state variables and assign usenavigate to Navigate
+
 	const navigate = useNavigate();
 
+	// declares state variables form has an object predefined
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -15,18 +19,20 @@ const LoginForm = () => {
 
 	const handleClick = () => {
 		axios
+			// sends forms email and password as a json object with axios call to api
 			.post(`https://college-api.vercel.app/login`, {
 				email: form.email,
 				password: form.password,
 			})
 			.then((response) => {
+				// sets user authenticated to true and defines token
+				// also puts the token in local storage so it can be accessed after refresh
 				onAuthenticated(true, response.data.token);
 				localStorage.setItem("token", response.data.token);
 				navigate("/");
 			})
 			.catch((err) => {
-				console.error(err);
-				console.log(err.response.data.error.email);
+	
 				setErrMessage(err.response.data.error.email);
 			});
 	};
@@ -34,13 +40,15 @@ const LoginForm = () => {
 	const handleRegisterClick = () => {
 		navigate("/register");
 	};
+
+	// onchange of form inputs sets the form state to the new value
 	const handleForm = (e) => {
 		setForm((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,
 		}));
 	};
-
+	// form 
 	return (
 		<div className="h-screen flex items-center justify-center ">
 			<div className="p-8 rounded shadow-2xl w-full max-w-md  text-white">

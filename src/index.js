@@ -6,6 +6,7 @@ import { AuthProvider} from './contexts/AuthContext'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    {/* wrap app with authprovider to allow authentication and alerts to pass through components */}
     <AuthProvider>
     <App />
     </AuthProvider>

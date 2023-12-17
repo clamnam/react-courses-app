@@ -5,16 +5,17 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
 
 const CreateCourseForm = () => {
+	// sets navigate variable
 	const navigate = useNavigate();
-	const { authenticated, setAlert,alert } = useAuth();
+	const { authenticated, setAlert, alert } = useAuth();
 	const token = localStorage.getItem("token");
-
+// sends user to home page if not authenticated
 	useEffect(() => {
 		if (!authenticated) {
 			navigate("/");
 		}
 	}, [navigate, authenticated]);
-
+	// sets form state
 	const [form, setForm] = useState({
 		title: "",
 		code: "",
@@ -22,7 +23,7 @@ const CreateCourseForm = () => {
 		points: "",
 		level: "",
 	});
-
+	// 		sets error state
 	const [error, setError] = useState({
 		title: "",
 		code: "",
@@ -32,12 +33,13 @@ const CreateCourseForm = () => {
 	});
 
 	const [errMessage, setErrMessage] = useState("");
-
+	// sends post request to create course
 	const handleClick = () => {
 		axios
 			.post(
 				"https://college-api.vercel.app/courses",
 				{
+					// sends form data as json object
 					title: form.title,
 					code: form.code,
 					description: form.description,
@@ -47,8 +49,10 @@ const CreateCourseForm = () => {
 				{ headers: { Authorization: `Bearer ${token}` } }
 			)
 			.then((response) => {
+			
 				const data = response.data.data;
 				setAlert("Success adding course!");
+
 				navigate(`/course/${data.id}`);
 			})
 			.catch((err) => {
@@ -56,11 +60,13 @@ const CreateCourseForm = () => {
 					const validationErrors = err.response.data.errors;
 
 					setError(
+						// sets error to 
 						Object.keys(validationErrors).reduce((acc, key) => {
 							acc[key] = validationErrors[key][0];
 							return acc;
 						}, {})
 					);
+					// sets error message to relevant error
 				} else if (err.response) {
 					setErrMessage(`Server error: ${err.response.status}`);
 				} else if (err.request) {
@@ -70,7 +76,7 @@ const CreateCourseForm = () => {
 				}
 			});
 	};
-
+	// sets form state to input values
 	const handleForm = (e) => {
 		setForm((prevState) => ({
 			...prevState,

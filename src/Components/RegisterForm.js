@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const RegisterForm = () => {
-  const {authenticated, onAuthenticated }= useAuth();
-
+  // defines onauthenticated as brought from the context provider
+  const { onAuthenticated }= useAuth();
+  // sets state for error and form
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,12 +15,15 @@ const RegisterForm = () => {
   const handleClick = () => {
     axios
       .post(`https://college-api.vercel.app/register`, {
+        // sends forms email and password as a json object with axios call to api
         name: form.name,
         email: form.email,
         password: form.password,
       })
       .then((response) => {
         console.log(response);
+        // sets user authenticated to true and defines token
+				// also puts the token in local storage so it can be accessed after refresh
         onAuthenticated(true, response.data.token);
         localStorage.setItem("token", response.data.token);
         navigate('/');
@@ -30,6 +34,8 @@ const RegisterForm = () => {
         setError(err.response.data.email);
       });
   };
+
+	// onchange of form inputs sets the form state to the new value
 
   const handleForm = (e) => {
     setForm((prevState) => ({

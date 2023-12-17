@@ -4,16 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const CreateEnrolmentForm = () => {
+	
 	const navigate = useNavigate();
+	// sets states
 	const { authenticated, setAlert } = useAuth();
 	const [lecturers, setLecturers] = useState([]);
 	const [courses, setCourses] = useState([]);
-	const [selectedLecturer, setSelectedLecturer] = useState("");
-	const [selectedCourse, setSelectedCourse] = useState("");
+
 
 	let token = localStorage.getItem("token");
 
 	useEffect(() => {
+		// gets course and lecturer data
 		axios
 			.get("https://college-api.vercel.app/api/courses", {
 				headers: { Authorization: `Bearer ${token}` },
@@ -36,12 +38,13 @@ const CreateEnrolmentForm = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-
+			// if authenticated is false, redirect to login page
 		if (authenticated === false) {
 			navigate("/");
 		}
-	}, [navigate, authenticated, token]);
+	}, [navigate, authenticated, token,setAlert]);
 
+	// sets form + error state
 	const [form, setForm] = useState({
 		date: "",
 		time: "",
@@ -55,12 +58,13 @@ const CreateEnrolmentForm = () => {
 		course_id: "",
 		lecturer_id: "",
 	});
-
+	// sets error message state
 	const [errMessage, setErrMessage] = useState("");
+
 
 	const handleClick = () => {
 		const currentDate = new Date();
-
+		// gets current time and date
 		const currentTime = currentDate.toLocaleTimeString([], {
 			hour: "2-digit",
 			minute: "2-digit",
@@ -79,6 +83,7 @@ const CreateEnrolmentForm = () => {
 			.post(
 				"https://college-api.vercel.app/enrolments",
 				{
+					// sends form data + date and time as json object
 					date: date,
 					time: currentTime,
 					status: form.status,
@@ -112,6 +117,7 @@ const CreateEnrolmentForm = () => {
 	};
 
 	const handleLecturerChange = (e) => {
+		// sets lecturer id state to selected value
 		setForm((prevState) => ({
 			...prevState,
 			lecturer_id: e.target.value,
@@ -119,13 +125,16 @@ const CreateEnrolmentForm = () => {
 	};
 
 	const handleCourseChange = (e) => {
+		// sets course id state to selected value
 		setForm((prevState) => ({
+
 			...prevState,
 			course_id: e.target.value,
 		}));
 	};
 
 	const handleForm = (e) => {
+		// sets form state to input values
 		setForm((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,
@@ -135,13 +144,14 @@ const CreateEnrolmentForm = () => {
 	let coursesDrop;
 	let lecturersDrop;
 
+	// maps retrieved course data to course cards
 	if (courses && lecturers) {
 		coursesDrop = courses.map((course) => (
 			<option key={course.id} value={course.id}>
 				{course.title}
 			</option>
 		));
-
+	// maps retrieved lecturer data to lecturer cards
 		lecturersDrop = lecturers.map((lecturer) => (
 			<option key={lecturer.id} value={lecturer.id}>
 				{lecturer.name}
@@ -155,12 +165,13 @@ const CreateEnrolmentForm = () => {
 				<div className="mb-6 text-4xl">Create an enrolment</div>
 
 				<div className="mb-4">
-					<label className="block">Status:</label>
+					<label className="block ">Status:</label>
 					<select
 						name="status"
 						id="status"
 						onChange={handleForm}
 						value={form.status}
+						className="text-white  text-xl my-4 btn w-64 bg-base-200"
 					>
 						<option value="">Choose Status</option>
 						<option value="interested">Interested</option>
@@ -178,6 +189,8 @@ const CreateEnrolmentForm = () => {
 						id="courses"
 						value={form.course_id}
 						onChange={handleCourseChange}
+						className="text-white  text-xl my-4 btn w-64 bg-base-200"
+
 					>
 						<option value="">Please select</option>
 						{courses && coursesDrop}
@@ -192,6 +205,8 @@ const CreateEnrolmentForm = () => {
 						id="lecturers"
 						value={form.lecturer_id}
 						onChange={handleLecturerChange}
+						className="text-white  text-xl my-4 btn w-64  bg-base-200"
+
 					>
 						<option value="">Please select</option>
 						{lecturers && lecturersDrop}

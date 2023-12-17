@@ -9,9 +9,10 @@ const Index = () => {
 	const { authenticated } = useAuth();
 	const token = localStorage.getItem("token");
 
+	// set states
 	const [courses, setCourses] = useState([]);
 	const [filteredCourses, setFilteredCourses] = useState([]);
-	const [sortOption, setSortOption] = useState("default"); // Default sort option
+	const [sortOption, setSortOption] = useState("default"); 
 
 	useEffect(() => {
 		axios
@@ -30,26 +31,28 @@ const Index = () => {
 	useEffect(() => {
 		// Apply sort when the sort Option changes
 		const sortFunctions = {
+			// sets sort functions that, sort using localeCompare which compares strings
 			default: (a, b) => a, // original sorting
 			alphabetical: (a, b) => a.title.localeCompare(b.title),
 			reverseAlphabetical: (a, b) => b.title.localeCompare(a.title),
 			codeAscending: (a, b) => a.code.localeCompare(b.code),
 			codeDescending: (a, b) => b.code.localeCompare(a.code),
 		};
-
+		// sorts courses based on sort option
 		const sortedCourses = [...courses].sort(sortFunctions[sortOption]);
 
 		setFilteredCourses(sortedCourses);
 	}, [sortOption, courses]);
-
+// when authenticated is false, dusplay login form
 	if (!authenticated) return <LoginForm />;
+	// if courses is empty, display loading symbol
 	if (courses.length === 0)
 		return (
 			<span className="text-2xl loading loading-spinner text-neutral">
 				Loading
 			</span>
 		);
-
+// maps retrieved course data to course cards
 	const coursesList = filteredCourses.map((course, index) => (
 		<div key={index}>
 			{authenticated ? (
@@ -80,6 +83,7 @@ const Index = () => {
 							Create a New Course
 						</Link>
 
+					
 						<select
 							value={sortOption}
 							onChange={(e) => setSortOption(e.target.value)}

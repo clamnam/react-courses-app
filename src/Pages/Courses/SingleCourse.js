@@ -6,9 +6,10 @@ import DeleteBtn from "../../Components/DeleteBtn";
 
 import { useAuth } from "../../contexts/AuthContext";
 const SingleCourse = () => {
+	// gets id from url
 	let { id } = useParams();
+	// sets states
 	const [course, setCourse] = useState(null);
-	const [error, setError] = useState("null");
 	const [backgroundPhoto, setBackgroundPhoto] = useState(null);
 
 	const { setAlert, alert } = useAuth();
@@ -22,9 +23,12 @@ const SingleCourse = () => {
 
 
 	useEffect(() => {
+		// removes alert after 5 seconds
 		setTimeout(() => setAlert(""), 5000);
-		
+		// removes spaces from course title to use in pexels query
 		const pexelsQuery = course?.title.replace(/\s/g, "%20");
+
+		// gets course data
 		axios
 			.get(`https://college-api.vercel.app/api/courses/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -39,11 +43,11 @@ const SingleCourse = () => {
 
 			axios
 			.get(
+				// gets photo from pexels api using course title as a query to get a relevant photo
 				`https://api.pexels.com/v1/search?query=${pexelsQuery}&per_page=1`,
 				{
 					headers: {
 						Authorization: "5zhsDrAO5uynl0lesA8wH6YNvfIgB47vbcPyt08xQ5hejBenR2FuEuGO",
-						
 					},
 				}
 			)
@@ -57,7 +61,7 @@ const SingleCourse = () => {
 	}, [id, token, setAlert,course?.title]);
 
 	let enrolments = null;
-
+// only displays enrolments if there are any
 	if (course?.enrolments && course.enrolments.length) {
 		enrolments = course.enrolments.map((enrolment, index) => (
 			<div key={index} className="">
@@ -83,6 +87,7 @@ const SingleCourse = () => {
 			</div>
 		));
 	}
+	// error handling for if course is not found
 	if (!course) {
 		return (
 			<>

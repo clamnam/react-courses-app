@@ -6,9 +6,11 @@ import DeleteBtn from "../../Components/DeleteBtn";
 import { useAuth } from "../../contexts/AuthContext";
 
 const SingleEnrolment = () => {
+	// gets id from url
 	let { id } = useParams();
+	// sets states
 	const [enrolment, setEnrolment] = useState(null);
-	const [error, setError] = useState("null");
+	
 	const { setAlert, alert } = useAuth();
 
 	let token = localStorage.getItem("token");
@@ -18,8 +20,9 @@ const SingleEnrolment = () => {
 	};
 
 	useEffect(() => {
+		// removes alert after 5 seconds
 		setTimeout(() => setAlert(""), 5000);
-
+		// gets enrolment data
 		axios
 			.get(`https://college-api.vercel.app/api/enrolments/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -32,6 +35,7 @@ const SingleEnrolment = () => {
 			});
 	}, [id, token, setAlert]);
 
+	// if no enrolment found, return 
 	if (!enrolment) {
 		return (
 			<>
@@ -45,6 +49,8 @@ const SingleEnrolment = () => {
 	return (
 		<>
 			<div className="flex items-center justify-center text-lg bg-red-500 text-white">
+								{/* display alert if there is one */}
+
 				{alert}
 			</div>
 			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">

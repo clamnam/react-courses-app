@@ -9,10 +9,13 @@ const LecturersIndex = () => {
 	const { authenticated } = useAuth();
 
 	let token = localStorage.getItem("token");
+	// sets states
 	const [lecturers, setLecturers] = useState([]);
 	const [sortOption, setSortOption] = useState("default"); // Default sort option
 
+
 	useEffect(() => {
+		// gets lecturer data
 		axios
 			.get("https://college-api.vercel.app/api/lecturers", {
 				headers: { Authorization: `Bearer ${token}` },
@@ -27,6 +30,7 @@ const LecturersIndex = () => {
 
 	const getSortedLecturers = () => {
 		const sortFunctions = {
+			// sets sort functions that, sort using localeCompare which compares strings
 			default: (a, b) => a, // No sorting
 			nameAscending: (a, b) => a.name.localeCompare(b.name),
 			nameDescending: (a, b) => b.name.localeCompare(a.name),
@@ -34,15 +38,16 @@ const LecturersIndex = () => {
 
 		return [...lecturers].sort(sortFunctions[sortOption]);
 	};
-
+	// if not authenticated, show login form
 	if (!authenticated) return <LoginForm />;
+	// if no lecturers, show loading spinner
 	if (lecturers.length === 0)
 		return (
 			<span className="text-2xl loading loading-spinner text-neutral">
 				Loading
 			</span>
 		);
-
+	// sets lecturer list to sorted lecturers
 	const lecturersList = getSortedLecturers().map((lecturer, index) => (
 		<div key={index}>
 			{authenticated ? (
@@ -62,6 +67,7 @@ const LecturersIndex = () => {
 					All Lecturers
 				</h1>
 
+				{/* counditionally renders filter and add based on if users authed */}
 				{authenticated && (
 					<>
 						{" "}
@@ -83,6 +89,8 @@ const LecturersIndex = () => {
 					</>
 				)}
 
+
+				{/* displays lecturer data if authed or login if not*/}
 				<div className="grid grid-cols-1 gap-10">
 					{authenticated ? (
 						lecturers.length > 0 ? (

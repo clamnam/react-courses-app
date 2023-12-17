@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 const Navbar = () => {
+		// defines onauthenticated as brought from the context provider
+
 	const { authenticated, onAuthenticated } = useAuth();
-
+    // sets state variables and assign usenavigate to Navigate
 	const navigate = useNavigate();
-
+	// removes token and authentication
 	const logout = () => {
 		onAuthenticated(false);
 		navigate(`/`);

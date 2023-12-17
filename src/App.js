@@ -64,8 +64,11 @@ function App() {
 
 
 	return (
+		// defines all the routes to be accessible by anyone
 		<Router>
-			<Navbar authenticated={authenticated} onAuthenticated={onAuthenticated} />
+			{/* adds navbar at the top of dom */}
+			<Navbar  />
+			{/* bg for everything */}
 			<div className="bg-stone-300 min-h-screen">
 			<>
 			<Routes>

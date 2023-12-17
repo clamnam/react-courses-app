@@ -3,10 +3,11 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CreateCourseForm = () => {
+	// gets id from url
 	let { id } = useParams();
 	const navigate = useNavigate();
 	let token = localStorage.getItem("token");
-
+// sets form state
 	const [courseData, setCourseData] = useState({
 		title: "",
 		code: "",
@@ -41,7 +42,7 @@ const CreateCourseForm = () => {
 	}, [id, token]);
 
 	useEffect(() => {
-		// Update the form state when courseData changes
+		// Update the form state when courseData changes so that the form is prepopulated with the course data
 		setForm({
 			title: courseData.title || "",
 			code: courseData.code || "",
@@ -53,9 +54,11 @@ const CreateCourseForm = () => {
 
 	const handleClick = () => {
 		axios
+		// sends put request to update course
 			.put(
 				`https://college-api.vercel.app/courses/${id}`,
 				{
+					// sends form data as json object
 					title: form.title,
 					code: form.code,
 					description: form.description,
@@ -75,8 +78,9 @@ const CreateCourseForm = () => {
 				setErrMessage(err.response.data.error);
 			});
 	};
-
+	
 	const handleForm = (e) => {
+		// sets form state to input values
 		setForm((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,

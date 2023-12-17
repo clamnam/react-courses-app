@@ -5,13 +5,16 @@ import LoginForm from "../../Components/LoginForm";
 import { useAuth } from "../../contexts/AuthContext";
 import EnrolmentCard from "../../Components/Cards/EnrolmentCard";
 const EnrolmentsIndex = () => {
+	// sets states
 	const { authenticated ,setAlert,alert} = useAuth();
+	const [enrolments, setEnrolments] = useState([]);
 
 	let token = localStorage.getItem("token");
-	const [enrolments, setEnrolments] = useState([]);
 	useEffect(() => {
+		// gets enrolment data
 		setTimeout(() => setAlert(""), 5000);
 		axios
+		// gets enrolment data
 			.get("https://college-api.vercel.app/api/enrolments", {
 				headers: { Authorization: `Bearer ${token}` },
 			})
@@ -21,8 +24,8 @@ const EnrolmentsIndex = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [token]);
-
+	}, [token,setAlert]);
+// if user is not authenticated, show login form
 	if (!authenticated) return <LoginForm />;
 	if (enrolments.length === 0)
 		return (
@@ -30,7 +33,7 @@ const EnrolmentsIndex = () => {
 				Loading
 			</span>
 		);
-
+// maps through enrolments
 	const enrolmentsList = enrolments.map((enrolment, index) => {
 		return (
 			<div key={index}>
@@ -45,6 +48,8 @@ const EnrolmentsIndex = () => {
 	return (
 		<>
 					<p className="flex items-center justify-center text-lg bg-red-700 text-white ">
+										{/* display alert if there is one */}
+
 				{alert}
 			</p>
 			<div className="container mx-auto pb-8">
@@ -62,6 +67,7 @@ const EnrolmentsIndex = () => {
 					</>
 				)}
 				<div className="grid grid-cols-1 gap-10">
+					{/* displays enrolment data if authed */}
 										{authenticated ? (
 						enrolments ? (
 							enrolmentsList

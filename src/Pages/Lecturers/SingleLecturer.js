@@ -5,20 +5,24 @@ import { Link } from "react-router-dom";
 import DeleteBtn from "../../Components/DeleteBtn";
 import { useAuth } from "../../contexts/AuthContext";
 const SingleLecturer = () => {
+	// gets id from url
 	let { id } = useParams();
+	// sets states
 	const [lecturer, setLecturer] = useState(null);
 	const { setAlert, alert } = useAuth();
 
-	const [error, setError] = useState("null");
 
 	let token = localStorage.getItem("token");
+	// callback for errors while deleting lecturer
 	const deleteLecturer = () => {
 		return <>error deleting lecturer</>
 	};
 	useEffect(() => {
+		// removes alert after 5 seconds
 		setTimeout(() => setAlert(""), 5000);
 
 		axios
+		// gets lecturer data
 			.get(`https://college-api.vercel.app/api/lecturers/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
@@ -32,7 +36,7 @@ const SingleLecturer = () => {
 	}, [id, token,setAlert]);
 
 	let enrolments = null;
-
+	// if lecturer has enrolments, map through them and display them
 	if (lecturer?.enrolments && lecturer.enrolments.length) {
 		enrolments = lecturer.enrolments.map((enrolment, index) => (
 			<div key={index} className="">
@@ -68,7 +72,7 @@ const SingleLecturer = () => {
 	} else {
 		enrolments = <p>No enrolments found.</p>;
 	}
-
+// if no lecturer found, return this
 	if (!lecturer) {
 		return (
 			<>
@@ -82,6 +86,7 @@ const SingleLecturer = () => {
 		<>
 			{" "}
 			<p className="flex items-center justify-center text-lg bg-red-500 text-white ">
+				{/* display alert if there is one */}
 				{alert}
 			</p>
 			<div className="max-w-2xl mx-auto mt-8 p-4 bg-blue-400 shadow-md rounded-md">

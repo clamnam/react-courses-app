@@ -1,8 +1,5 @@
-import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
 const Home = () => {
-	const { authenticated } = useAuth();
-
+// landing page with sliding images
 	return (
 		<>
 
